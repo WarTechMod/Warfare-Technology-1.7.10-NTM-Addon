@@ -1,6 +1,5 @@
 package com.wartec.wartecmod.savedata.satellites;
 
-import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityEMP;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
@@ -43,20 +42,11 @@ public class SatelliteEmp extends Satellite {
 		used = true;
 		SatelliteSavedData.getData(world).markDirty();
 		
-		EntityNukeCloudSmall Nuke = new EntityNukeCloudSmall(world);
-		Nuke.setPosition(x + 0.5, 600, z + 0.5);
-		
-		EntityEMP Nuke1 = new EntityEMP(world);
-		Nuke1.posX = x + 0.5;
-		Nuke1.posY = y;
-		Nuke1.posZ = z + 0.5;
+		//nuke
 		
 		IChunkProvider provider = world.getChunkProvider();
 		provider.loadChunk(x >> 4, z >> 4);
-		
-		world.spawnEntityInWorld(Nuke);
-		
-		world.spawnEntityInWorld(Nuke1);
+
 		
 
 		//for(Object p : world.playerEntities)

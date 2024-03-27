@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.config.BombConfig;
-import com.hbm.entity.effect.EntityNukeCloudSmall;
+
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.items.ModItems;
 import com.wartec.wartecmod.items.wartecmodItems;
@@ -24,14 +24,7 @@ public class EntitySarmatMissile extends EntityBallisticMissileBase {
 
 	@Override
 	public void onImpact() {
-		
-    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, BombConfig.missileRadius * 3, posX, posY, posZ));
 
-		EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(this.worldObj, 1000, BombConfig.missileRadius * 3 * 0.005F);
-    	entity2.posX = this.posX;
-    	entity2.posY = this.posY;
-    	entity2.posZ = this.posZ;
-    	this.worldObj.spawnEntityInWorld(entity2);
 	}
 
 	@Override

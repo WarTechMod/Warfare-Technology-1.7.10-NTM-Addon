@@ -1,9 +1,7 @@
 package com.wartec.wartecmod.entity.missile;
 
-import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
-import com.hbm.entity.missile.EntityBombletTheta;
 import com.hbm.entity.missile.EntityMIRV;
 import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.PacketDispatcher;

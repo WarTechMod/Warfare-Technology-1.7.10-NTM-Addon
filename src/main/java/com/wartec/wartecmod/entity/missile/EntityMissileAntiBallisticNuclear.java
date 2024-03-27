@@ -1,7 +1,6 @@
 package com.wartec.wartecmod.entity.missile;
 
 import api.hbm.entity.IRadarDetectable;
-import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.explosion.ExplosionLarge;
@@ -68,11 +67,7 @@ public class EntityMissileAntiBallisticNuclear extends Entity implements IRadarD
 					if(e instanceof EntityMissileCustom) {
 						ExplosionNukeGeneric.dealDamage(worldObj, posX, posY, posZ, 100, 1000);
 						worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, 100, posX, posY, posZ));
-						EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(worldObj, 1000, 100 * 0.005F);
-						entity2.posX = this.posX;
-						entity2.posY = this.posY;
-						entity2.posZ = this.posZ;
-						worldObj.spawnEntityInWorld(entity2);
+
 						this.setDead();
 						return;
 					}
