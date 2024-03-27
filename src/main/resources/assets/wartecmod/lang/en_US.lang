@@ -1,0 +1,90 @@
+# Items
+item.ItemCruiseMissileNoWarheadTier1.name=Subsonic Cruise Missile without Warhead
+item.ItemEngineInletSectionTier1.name=Engine Inlet Tier 1
+item.ItemTurbofanEngineTier1.name=Turbofan Engine Tier 1
+item.ItemSolidBooster.name=Solid fuel rocket booster
+item.ItemWarheadHeCM.name=HE Warhead (CM)
+item.ItemWarheadEmp.name=EMP Warhead (CM)
+item.ItemWarheadNuclearCM.name=Nuclear Warhead (CM)
+item.ItemWarheadHCM.name=Thermonuclear Warhead (CM)
+item.ItemWarheadNeutron.name=Neutron Warhead
+item.ItemWarheadBuster.name=Bunker Buster Warhead (CM)
+item.ItemWarheadCluster.name=Cluster Warhead (CM)
+item.ItemWarheadFAE.name=Thermobaric Warhead (CM)
+item.ItemWarheadGas.name=Gas Warhead
+item.ItemHWarhead.name=Thermonuclear Warhead (SLBM)
+item.ItemKKV.name=Kinetic Kill Vehicle
+item.ItemCruiseFinsSmall.name=Cruise Fins small
+item.ItemCruiseFinsBig.name=Cruise Fins big
+item.ItemCruiseWings.name=Cruise Wings
+item.ItemGuidanceSystemTier1.name=Guidance System Tier 1
+item.ItemGuidanceSystemTier2.name=Guidance System Tier 2
+item.ItemGuidanceSystemTier3.name=Guidance System Tier 3
+item.ItemGuidanceSystemTier4.name=Guidance System Tier 4
+item.ItemGuidanceSystemTier5.name=Guidance System Tier 5
+item.ItemGuidanceSystemTier6.name=Guidance System Tier 6
+item.ItemPlateU238.name=U238 Plate
+item.IngotArmorSteel.name=Armor Steel Ingot
+item.ItemMincedMeatRaw.name=Raw Minced Meat
+item.ItemMincedMeatCooked.name=Fried Minced Meat
+item.sat_nuclear.name=H.A.D.E.S - Satellite based Thermonuclear Weapon System
+item.ItemMissileStrikeCaller.name=VLS-demonstrating-tool
+item.ItemTargetFinder.name=Target selector
+# Missile Items
+item.ItemCruiseMissileHe.name=Subsonic HE Cruise Missile
+item.ItemCruiseMissileCluster.name=Subsonic Cluster Cruise Missile
+item.ItemCruiseMissileBuster.name=Subsonic Bunker Buster Cruise Missile
+item.ItemCruiseMissileEmp.name=Subsonic EMP Cruise Missile
+item.ItemCruiseMissileFAE.name=Subsonic Thermobaric Cruise Missile
+item.ItemCruiseMissileNuclear.name=Subsonic Nuclear Cruise Missile
+item.ItemCruiseMissileH.name=Subsonic Thermonuclear Cruise Missile
+item.ItemSupersonicCruiseMissileHE.name=Supersonic HE Cruise Missile
+item.ItemSupersonicCruiseMissileH.name=Supersonic Thermonuclear Cruise Missile
+item.ItemHypersonicCruiseMissileHE.name=Hypersonic HE Cruise Missile
+item.ItemHypersonicCruiseMissileNuclear.name=Hypersonic Nuclear Cruise Missile
+item.ItemMissileStrongAntiBallistic.name=Strong Anti Ballistic Missile
+item.ItemMissileSLBM.name=Submarine launched Ballistic Missile
+item.ItemMissileMicroGas.name=Gas Micro Missile
+item.ItemMissileMicroNeutron.name=Neutron Micro Missile
+item.ItemLrhwMissile.name=Long Range Hypersonic Weapon
+item.ItemKalibrMissile.name=3M14 Kalibr 
+item.ItemTomahawkMissile.name=R/UGM-109H Tomahawk Block Va
+item.ItemCj10Missile.name=DongHai 10
+item.ItemIskanderMissile.name=9K723 Iskander-M
+item.ItemMissileASAT.name=PDV Mk2
+# CreativeTabs
+itemGroup.tabwartecmodcruisemissiles=WarTech Mod Missiles
+itemGroup.tabwartecmodparts=WarTech Mod Resources and Parts
+itemGroup.tabwartecmodblocks=WarTech Mod Blocks
+itemGroup.tabwartecmodcons=WarTech Mod Consumables
+itemGroup.tabwartecmodgear=WarTech Mod Gear and Misc
+# Blocks
+tile.blockArmorSteel.name=Block of Armor Steel
+tile.DecoBlockCruiseMissile.name=Subsonic HE Cruise Missile (Deco block)
+tile.DecoBlockCruiseMissileBuster.name=Subsonic Bunker Buster Cruise Missile (Deco block)
+tile.DecoBlockCruiseMissileCluster.name=Subsonic Cluster Cruise Missile (Deco block)
+tile.DecoBlockCruiseMissileNuclear.name=Subsonic Nuclear Cruise Missile (Deco block)
+tile.DecoBlockCruiseMissileH.name=Subsonic Thermonuclear Cruise Missile (Deco block)
+tile.DecoBlockCruiseMissileGas.name=Subsonic Gas Cruise Missile (Deco block)
+tile.DecoBlockCruiseMissileEmp.name=Subsonic EMP Cruise Missile (Deco block)
+tile.DecoBlockCruiseMissileFAE.name=Subsonic Thermobaric Cruise Missile (Deco block)
+tile.DecoBlockSupersonicCruiseMissile.name=Supersonic HE Cruise Missile (Deco block)
+tile.DecoBlockHypersonicCruiseMissile.name=Hypersonic HE Cruise Missile (Deco block)
+tile.DecoBlockSupersonicCruiseMissileH.name=Supersonic Thermonuclear Cruise Missile (Deco block)
+tile.DecoBlockHypersonicCruiseMissileNuclear.name=Hypersonic Nuclear Cruise Missile (Deco block)
+tile.DecoBlockSatelliteNuclear.name= H.A.D.E.S - Satellite based Thermonuclear Weapon System (Deco block)
+tile.DecoBlockFlagUS.name=US Flag	
+tile.DecoBlockFlagSU.name=Soviet Union Flag
+tile.DecoBlockFlagEU.name=European Union Flag
+tile.DecoBlockFlagAL.name=Arab League Flag
+tile.DecoBlockFlagCH.name=China Flag
+tile.DecoBlockFlagIsr.name=Israel Flag
+tile.LaunchTube.name=Vertical Launch System
+tile.BallisticMissileLauncher.name=Ballistic Missile Launcher
+# Container
+container.LaunchTube=Launch Tube
+container.BallisticMissileLauncher=Ballistic Missile Launcher
+
+
+
+tile.VlsExhaust.name=VLS Exhaust

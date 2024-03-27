@@ -1,0 +1,7 @@
+{
+"weapon.CruiseMissileTakeoff": {"category": "player", "sounds": [{"name": "weapon/CruiseMissileTakeoff", "stream": false}]},
+"weapon.CruiseMissileEngine": {"category": "player", "sounds": [{"name": "weapon/CruiseMissileEngine", "stream": false}]},
+"weapon.CruiseMissileWhistle": {"category": "player", "sounds": [{"name": "weapon/CruiseMissileWhistle", "stream": false}]},
+"weapon.BallisticMissileTakeoff": {"category": "player", "sounds": [{"name": "weapon/BallisticMissileTakeoff", "stream": false}]},
+"entity.bombDet3": {"category": "player", "sounds": [{"name": "entity/bombDet3", "stream": false}]}
+}
