@@ -317,7 +317,7 @@ public abstract class EntitySubsonicCruiseMissileBase extends Entity implements 
     			return;
 	        }
 
-			if(this.isCluster = true){
+			if(this.isCluster){
 				BombletSplit();
 			}
     			

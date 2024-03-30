@@ -7,7 +7,7 @@ public class SatelliteRegistry {
 	public static void registerAll() {
 
 		Satellite.registerSatellite(SatelliteNuclear.class, wartecmodItems.sat_nuclear);
-		Satellite.registerSatellite(SatelliteEmp.class, wartecmodItems.sat_emp);
+		Satellite.registerSatellite(SatelliteEMP.class, wartecmodItems.sat_emp);
 
 	}
 }

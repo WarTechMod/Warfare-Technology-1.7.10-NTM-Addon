@@ -1,21 +1,18 @@
 package com.wartec.wartecmod.savedata.satellites;
 
-import com.hbm.entity.logic.EntityEMP;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
-import com.hbm.saveddata.satellites.Satellite.Interfaces;
-import com.wartec.wartecmod.entity.missile.EntitySatelliteMissileNuclear;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 
-public class SatelliteEmp extends Satellite {
+public class SatelliteEMP extends Satellite {
 	
 	boolean used = false;
 	
-	public SatelliteEmp() {
+	public SatelliteEMP() {
 		this.satIface = Interfaces.SAT_COORD;
 		this.satIface = Interfaces.SAT_PANEL;
 	}
