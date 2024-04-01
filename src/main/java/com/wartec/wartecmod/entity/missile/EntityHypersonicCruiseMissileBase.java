@@ -111,13 +111,13 @@ public abstract class EntityHypersonicCruiseMissileBase extends Entity implement
 
 		startsonicspeed = transformationpointvector*1.34;
 		
-		this.motionY = 0.75;
+		this.motionY = 1;
 
         Vec3 vector = Vec3.createVectorHelper(targetX - startX, targetY - startY, targetZ - startZ);
 		accelXZ = decelY = 1/vector.lengthVector();
-		decelY *= 0.75;
+		decelY *= 1;
 			
-		velocity = 1;
+		velocity = 4;
 
         this.setSize(1.5F, 1.5F);
 	}
@@ -214,13 +214,13 @@ public abstract class EntityHypersonicCruiseMissileBase extends Entity implement
 		
 		//2. Geschwindigkeiten
 		if(velocity < 1)
-			velocity = 1;
+			velocity = 4;
 		if(this.ticksExisted > 40)
-			velocity = 3;
+			velocity = 8;
 		else if(this.ticksExisted > 20)
-			velocity = 2;
+			velocity = 6;
 		if(this.positionvectorCruise > this.startsonicspeed && isHypersonic && !this.worldObj.isRemote)
-	    	velocity = 12;
+	    	velocity = 10;
 		this.velocityChanged = true;
 		
         this.dataWatcher.updateObject(8, Integer.valueOf(this.health));

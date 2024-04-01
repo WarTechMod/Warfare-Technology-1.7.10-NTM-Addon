@@ -123,7 +123,7 @@ public abstract class EntitySubsonicCruiseMissileBase extends Entity implements 
 		accelXZ = decelY = 1/vector.lengthVector();
 		decelY *= 0.25;
 			
-		velocity = 1;
+		velocity = 2;
 
         this.setSize(1.5F, 1.5F);
 	}
@@ -242,88 +242,88 @@ public abstract class EntitySubsonicCruiseMissileBase extends Entity implements 
 	
 	@Override
     public void onUpdate() {
-		
+
 		//1.Position
-        positionvectorCruise = Math.sqrt(((this.posX - startX)*(this.posX - startX)) + ((this.posY - startY)*(this.posY - startY)) + ((this.posZ - startZ)*(this.posZ - startZ)));
-		
+		positionvectorCruise = Math.sqrt(((this.posX - startX) * (this.posX - startX)) + ((this.posY - startY) * (this.posY - startY)) + ((this.posZ - startZ) * (this.posZ - startZ)));
+
 		//2. Geschwindigkeiten
-		if(velocity < 1)
-			velocity = 1;
-		if(this.ticksExisted > 40)
-			velocity = 3;
-		else if(this.ticksExisted > 20)
+		if(velocity < 2)
 			velocity = 2;
+		if(this.ticksExisted > 40)
+			velocity = 4;
+		else if(this.ticksExisted > 20)
+			velocity = 3;
 		if(this.positionvectorCruise > this.startsonicspeed && isSubsonic && !this.worldObj.isRemote)
-	    	velocity = 3;
+			velocity = 4;
+		this.velocityChanged = true;
 
-		
-        this.dataWatcher.updateObject(8, Integer.valueOf(this.health));
-        
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-		
-        //TODO: instead of crappy skipping, implement a hitscan
+
+		this.dataWatcher.updateObject(8, Integer.valueOf(this.health));
+
+		this.prevPosX = this.posX;
+		this.prevPosY = this.posY;
+		this.prevPosZ = this.posZ;
+
+		//TODO: instead of crappy skipping, implement a hitscan
 		for(int i = 0; i < velocity; i++) {
-	        //this.posX += this.motionX;
-	        //this.posY += this.motionY;
-	        //this.posZ += this.motionZ;
-		
-			//this.setLocationAndAngles(posX + (this.motionX*1.0033) * velocity, posY + this.motionY * velocity, posZ + (this.motionZ*0.9952) * velocity, 0, 0);   
-		    this.setLocationAndAngles(posX + this.motionX * velocity, posY + this.motionY * velocity, posZ + this.motionZ * velocity, 0, 0);
-			
-		    
-		    this.rotation();
-	        
-	        this.motionY -= decelY * velocity;
-	        
-	        Vec3 vector = Vec3.createVectorHelper(targetX - startX, targetY - startY , targetZ - startZ);
-	        vector = vector.normalize();
-	        vector.xCoord *= accelXZ * velocity;
-			vector.zCoord *= accelXZ * velocity;
-			
-			
-	        if(motionY > 0) {
-	        	motionX += vector.xCoord;
-	        	motionZ += vector.zCoord; 
-	        }
-	        
-	        if(motionY < 0) {
-	        	motionX -= vector.xCoord;
-	        	motionZ -= vector.zCoord;
-	        }
-	        
-	        //3. Bedingungen für Transformation
-	        if(this.positionvectorCruise < this.transformationpointvector && this.dataWatcher.getWatchableObjectInt(9) == 1 && !this.worldObj.isRemote) {//this.ticksExisted > 5
-	            this.spawnExhaust(posX - vector.xCoord * i, (posY+1) - vector.yCoord * i, posZ - vector.zCoord * i);
-	        }
-	        
-	        if(this.positionvectorCruise > this.transformationpointvector && this.dataWatcher.getWatchableObjectInt(9) == 1 && !this.worldObj.isRemote) {//this.ticksExisted > 205
-	        	this.MissileToCruiseMissile();
-	        }
-	        
-	        new TargetPoint(worldObj.provider.dimensionId, posX, posY, posZ, 300); //300
-	       
-	        if(this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.air && 
-        			this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.water && 
-        			this.worldObj.getBlock((int)this.posX, (int)this.posY, (int)this.posZ) != Blocks.flowing_water) {
-	        	
-	        
-        	    if(!this.worldObj.isRemote)
-    			{
-    				onImpact();
-    			}
-    			this.setDead();          
-    			return;
-	        }
+		//this.posX += this.motionX;
+		//this.posY += this.motionY;
+		//this.posZ += this.motionZ;
 
-			if(this.isCluster){
-				BombletSplit();
+		//this.setLocationAndAngles(posX + (this.motionX*1.0033) * velocity, posY + this.motionY * velocity, posZ + (this.motionZ*0.9952) * velocity, 0, 0);
+		this.setLocationAndAngles(posX + this.motionX * velocity, posY + this.motionY * velocity, posZ + this.motionZ * velocity, 0, 0);
+
+
+		this.rotation();
+
+		this.motionY -= decelY * velocity;
+
+		Vec3 vector = Vec3.createVectorHelper(targetX - startX, targetY - startY, targetZ - startZ);
+		vector = vector.normalize();
+		vector.xCoord *= accelXZ * velocity;
+		vector.zCoord *= accelXZ * velocity;
+
+
+		if (motionY > 0) {
+			motionX += vector.xCoord;
+			motionZ += vector.zCoord;
+		}
+
+		if (motionY < 0) {
+			motionX -= vector.xCoord;
+			motionZ -= vector.zCoord;
+		}
+
+		//3. Bedingungen für Transformation
+		if (this.positionvectorCruise < this.transformationpointvector && this.dataWatcher.getWatchableObjectInt(9) == 1 && !this.worldObj.isRemote) {//this.ticksExisted > 5
+			this.spawnExhaust(posX - vector.xCoord * i, (posY + 1) - vector.yCoord * i, posZ - vector.zCoord * i); // velocity=i
+		}
+
+		if (this.positionvectorCruise > this.transformationpointvector && this.dataWatcher.getWatchableObjectInt(9) == 1 && !this.worldObj.isRemote) {//this.ticksExisted > 205
+			this.MissileToCruiseMissile();
+		}
+
+		new TargetPoint(worldObj.provider.dimensionId, posX, posY, posZ, 300); //300
+
+		if (this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.air &&
+				this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.water &&
+				this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.flowing_water) {
+
+
+			if (!this.worldObj.isRemote) {
+				onImpact();
 			}
-    			
-	        loadNeighboringChunks((int)(posX / 16), (int)(posZ / 16));
+			this.setDead();
+			return;
+		}
 
-	        }
+		if (this.isCluster) {
+			BombletSplit();
+		}
+
+		loadNeighboringChunks((int) (posX / 16), (int) (posZ / 16));
+
+	      }
 		}
 
 	public void BombletSplit() {
@@ -334,7 +334,7 @@ public abstract class EntitySubsonicCruiseMissileBase extends Entity implements 
 
 			this.setDead();
 
-				for (int i = 0; i < 50; i++) {
+				for (int i = 0; i < 10; i++) {
 
 					EntityGrenadeSmart grenade = new EntityGrenadeSmart(worldObj);
 					grenade.posX = posX;
@@ -389,8 +389,31 @@ public abstract class EntitySubsonicCruiseMissileBase extends Entity implements 
 
 	List<ChunkCoordIntPair> loadedChunks = new ArrayList<ChunkCoordIntPair>();
 
-	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
+	public void loadNeighboringChunks(int newChunkX, int newChunkZ)
+	{
+		if(!worldObj.isRemote && loaderTicket != null)
+		{
+			for(ChunkCoordIntPair chunk : loadedChunks)
+			{
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
 
+			loadedChunks.clear();
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ + 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ - 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ - 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ + 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ + 1));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ));
+			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ - 1));
+
+			for(ChunkCoordIntPair chunk : loadedChunks)
+			{
+				ForgeChunkManager.forceChunk(loaderTicket, chunk);
+			}
+		}
 	}
     
 

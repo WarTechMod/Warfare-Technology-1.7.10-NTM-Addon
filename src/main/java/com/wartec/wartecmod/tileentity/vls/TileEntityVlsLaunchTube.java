@@ -55,6 +55,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.apache.logging.log4j.Level;
@@ -425,8 +426,17 @@ public class TileEntityVlsLaunchTube
 	@Spaghetti(value="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA *takes breath* AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 	public IBomb.BombReturnCode shootSpecial(World world, int x, int y, int z, int xCoord, int yCoord, int zCoord) {
 		TileEntityVlsLaunchTube entity = (TileEntityVlsLaunchTube)world.getTileEntity(x, y, z);
+
+		int Range = (int) ((Math.sqrt(((xCoord - x) * (xCoord - x)) + ((yCoord - y) * (yCoord - y)) + ((zCoord - z) * (zCoord - z)))));
+
 		if (entity.slots[0] == null || world.isRemote) {
 			return IBomb.BombReturnCode.ERROR_MISSING_COMPONENT;
+		}
+		if (Range < 250 ) {
+			return IBomb.BombReturnCode.valueOf("Target to close");
+		}
+		if (Range > 4500 ) {
+			return IBomb.BombReturnCode.valueOf("Target out of Range");
 		}
 		if (entity.power >= 75000L) {
 			if(entity.slots[0].getItem() instanceof IMissileSpawningItem) {
