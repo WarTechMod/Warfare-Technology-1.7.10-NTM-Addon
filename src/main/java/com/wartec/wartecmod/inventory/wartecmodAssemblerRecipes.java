@@ -67,7 +67,6 @@ public class wartecmodAssemblerRecipes {
 		
 //Parts
 		com.hbm.inventory.recipes.AssemblerRecipes.makeRecipe(new ComparableStack(wartecmodItems.itemEngineInletSectionTier1, 1), new AStack[] {
-				   new ComparableStack(ModItems.hull_big_steel, 2), 
 				   new ComparableStack(ModItems.mechanism_revolver_2, 2),
 				   new ComparableStack(ModItems.hull_small_steel, 1), },150);
 		com.hbm.inventory.recipes.AssemblerRecipes.makeRecipe(new ComparableStack(wartecmodItems.itemTurbofanEngineTier1, 1), new AStack[] {
