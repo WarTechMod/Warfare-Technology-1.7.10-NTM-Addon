@@ -8,6 +8,7 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.main.MainRegistry;
 
 import api.hbm.entity.IRadarDetectable;
+import com.wartec.wartecmod.entity.submunition.EntityBombletHE;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,8 +34,10 @@ public abstract class EntitySupersonicCruiseMissileBase extends Entity implement
 	int targetY;
 	int targetZ;
 	int velocity;
-	double positionvectorCruise;
-    double transformationpointvector;
+	double Distance;
+	double CruiseMissilePosition;
+	double BoosterDisengagement;
+	double SubmunitionDispensing;
     double startsonicspeed;
     double Range;
 	double decelY;
@@ -104,13 +107,15 @@ public abstract class EntitySupersonicCruiseMissileBase extends Entity implement
 		targetX = a;
 		targetY = b;
 		targetZ = c;
-		
-		
-	    Range = (Math.sqrt(((targetX - startX)*(targetX - startX)) + ((targetY - startY)*(targetY - startY)) + ((targetZ - startZ)*(targetZ - startZ))));
-		
-		transformationpointvector = (Math.sqrt(((targetX - startX)*(targetX - startX)) + ((targetY - startY)*(targetY - startY)) + ((targetZ - startZ)*(targetZ - startZ))))*0.15;
-		
-		startsonicspeed = transformationpointvector*1.34;
+
+
+		Distance = Math.sqrt(((targetX - startX)*(targetX - startX)) + ((targetY - startY)*(targetY - startY)) + ((targetZ - startZ)*(targetZ - startZ)));
+
+		BoosterDisengagement = (Math.sqrt(((targetX - startX)*(targetX - startX)) + ((targetY - startY)*(targetY - startY)) + ((targetZ - startZ)*(targetZ - startZ))))*0.15;
+
+		SubmunitionDispensing = (Math.sqrt(((targetX - startX)*(targetX - startX)) + ((targetY - startY)*(targetY - startY)) + ((targetZ - startZ)*(targetZ - startZ))))*0.95;
+
+		startsonicspeed = BoosterDisengagement*1.34;
 		
 		this.motionY = 0.5;
 
@@ -211,17 +216,17 @@ public abstract class EntitySupersonicCruiseMissileBase extends Entity implement
     public void onUpdate() {
 		
 		//1.Position
-        positionvectorCruise = Math.sqrt(((this.posX - startX)*(this.posX - startX)) + 0 + ((this.posZ - startZ)*(this.posZ - startZ)));
+        CruiseMissilePosition = Math.sqrt(((this.posX - startX)*(this.posX - startX)) + 0 + ((this.posZ - startZ)*(this.posZ - startZ)));
 		
 		//2. Geschwindigkeiten
-		if(velocity < 1)
+		if(velocity < 3)
 			velocity = 3;
 		if(this.ticksExisted > 40)
 			velocity = 5;
 		else if(this.ticksExisted > 20)
 			velocity = 4;
-		if(this.positionvectorCruise > this.startsonicspeed && isSupersonic && !this.worldObj.isRemote)
-	    	velocity = 6;
+		if(this.CruiseMissilePosition > this.startsonicspeed && isSupersonic && !this.worldObj.isRemote)
+	    	velocity = 5;
 		this.velocityChanged = true;
 		
         this.dataWatcher.updateObject(8, Integer.valueOf(this.health));
@@ -262,11 +267,11 @@ public abstract class EntitySupersonicCruiseMissileBase extends Entity implement
 	        
 	        
 	        //3. Bedingungen f�r Transformation
-	        if(this.positionvectorCruise < this.transformationpointvector && this.dataWatcher.getWatchableObjectInt(9) == 1 && !this.worldObj.isRemote) {//this.ticksExisted > 5
+	        if(this.CruiseMissilePosition < this.BoosterDisengagement && this.dataWatcher.getWatchableObjectInt(9) == 1 && !this.worldObj.isRemote) {//this.ticksExisted > 5
 	        	this.spawnExhaust(posX - vector.xCoord * i, (posY+1) - vector.yCoord * i, posZ - vector.zCoord * i);
 	        }
 	        
-	        if(this.positionvectorCruise > this.transformationpointvector && this.dataWatcher.getWatchableObjectInt(9) == 1 && !this.worldObj.isRemote) {//this.ticksExisted > 205
+	        if(this.CruiseMissilePosition > this.BoosterDisengagement && this.dataWatcher.getWatchableObjectInt(9) == 1 && !this.worldObj.isRemote) {//this.ticksExisted > 205
 	        	this.MissileToCruiseMissile();
 	        }
 	        
@@ -284,11 +289,39 @@ public abstract class EntitySupersonicCruiseMissileBase extends Entity implement
     			this.setDead();          
     			return;
 	        }
+
+			if (this.isCluster && this.Distance-30 < this.CruiseMissilePosition && !this.worldObj.isRemote) {
+				BombletSplit();
+			}
     			
 	        loadNeighboringChunks((int)(posX / 16), (int)(posZ / 16));
 
 	        }
 		}
+
+	public void BombletSplit() {
+		if (this.Distance-30 < this.CruiseMissilePosition) {
+
+			if (worldObj.isRemote)
+				return;
+			ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ, 7);
+			this.setDead();
+
+			for (int i = 0; i < 100; i++) {
+
+				EntityBombletHE Bomblet = new EntityBombletHE(worldObj);
+				Bomblet.posX = posX;
+				Bomblet.posY = posY;
+				Bomblet.posZ = posZ;
+				Bomblet.motionX = motionX + rand.nextGaussian() * 0.7D;
+				Bomblet.motionY = motionY + rand.nextGaussian() * 0.7D;
+				Bomblet.motionZ = motionZ + rand.nextGaussian() * 0.7D;
+				Bomblet.ticksExisted = 52;
+
+				worldObj.spawnEntityInWorld(Bomblet);
+			}
+		}
+	}
 	
 	
     

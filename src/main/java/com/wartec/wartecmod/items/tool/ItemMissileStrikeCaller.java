@@ -5,6 +5,7 @@ import com.hbm.interfaces.IBomb;
 import com.hbm.lib.Library;
 import com.hbm.util.ChatBuilder;
 import com.wartec.wartecmod.blocks.vls.VlsVerticalLauncher;
+import com.wartec.wartecmod.interfaces.ILauncher;
 import com.wartec.wartecmod.tileentity.vls.TileEntityVlsLaunchTube;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -150,7 +151,7 @@ public class ItemMissileStrikeCaller extends Item implements IDesignatorItem {
 
                 world.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
                 if(!world.isRemote) {
-                    IBomb.BombReturnCode ret = te.shootSpecial(world, pos[0], pos[1], pos[2], targetX, targetY, targetZ);
+                    ILauncher.StatusReturnCode ret = te.shootSpecial(world, pos[0], pos[1], pos[2], targetX, targetY, targetZ);
 
                     player.addChatMessage(ChatBuilder.start("[").color(EnumChatFormatting.DARK_AQUA)
                             .nextTranslation(this.getUnlocalizedName() + ".name").color(EnumChatFormatting.DARK_AQUA)

@@ -34,6 +34,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.IBomb;
 import com.wartec.wartecmod.blocks.wartecmodBlocks;
+import com.wartec.wartecmod.interfaces.ILauncher;
 import com.wartec.wartecmod.tileentity.vls.TileEntityVlsLaunchTube;
 import com.wartec.wartecmod.wartecmod;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -55,7 +56,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class VlsVerticalLauncher
 		extends BlockDummyable
-	implements IBomb
+	implements ILauncher
 {
 	public static boolean keepInventory = false;
 	private static final Random field_149933_a = new Random();
@@ -194,10 +195,10 @@ public class VlsVerticalLauncher
 	}
 
 	@Override
-	public BombReturnCode explode(World world, int x, int y, int z) {
+	public ILauncher.StatusReturnCode launch(World world, int x, int y, int z) {
 		int[] pos = this.findCore(world, x, y, z);
 		if(pos == null)
-			return BombReturnCode.UNDEFINED;
+			return ILauncher.StatusReturnCode.UNDEFINED;
 		TileEntityVlsLaunchTube te = (TileEntityVlsLaunchTube) world.getTileEntity(pos[0], pos[1], pos[2]);
 		return te.shoot(world, x, y, z);
 	}

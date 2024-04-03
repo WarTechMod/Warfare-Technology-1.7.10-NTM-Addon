@@ -38,6 +38,7 @@ import com.wartec.wartecmod.blocks.vls.VlsExhaust;
 import com.wartec.wartecmod.blocks.vls.VlsVerticalLauncher;
 import com.wartec.wartecmod.entity.missile.EntityMissileAntiAirTier1;
 import com.wartec.wartecmod.entity.missile.EntityMissileAntiBallisticNuclear;
+import com.wartec.wartecmod.interfaces.ILauncher;
 import com.wartec.wartecmod.items.IMissileSpawningItem;
 import com.wartec.wartecmod.items.wartecmodItems;
 import com.wartec.wartecmod.packet.PacketRegistry;
@@ -55,7 +56,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.apache.logging.log4j.Level;
@@ -403,11 +403,11 @@ public class TileEntityVlsLaunchTube
 		return null;
 	}
 
-	public IBomb.BombReturnCode shoot(World world, int x, int y, int z) {
+	public ILauncher.StatusReturnCode shoot(World world, int x, int y, int z) {
 		try {
 			int[] pos = ((VlsVerticalLauncher)world.getBlock(x, y, z)).findCore(world, x, y, z);
 			if(pos == null) {;
-				return IBomb.BombReturnCode.ERROR_MISSING_COMPONENT;
+				return ILauncher.StatusReturnCode.ERROR_MISSING_COMPONENT;
 			}
 			TileEntityVlsLaunchTube entity = (TileEntityVlsLaunchTube)world.getTileEntity(pos[0], pos[1], pos[2]);
 
@@ -420,23 +420,23 @@ public class TileEntityVlsLaunchTube
 
 			return shootSpecial(world, pos[0], pos[1], pos[2], xCoord, yCoord, zCoord);
 		} catch (Exception e) { }
-		return IBomb.BombReturnCode.ERROR_MISSING_COMPONENT;
+		return ILauncher.StatusReturnCode.ERROR_MISSING_COMPONENT;
 	}
 
 	@Spaghetti(value="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA *takes breath* AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-	public IBomb.BombReturnCode shootSpecial(World world, int x, int y, int z, int xCoord, int yCoord, int zCoord) {
+	public ILauncher.StatusReturnCode shootSpecial(World world, int x, int y, int z, int xCoord, int yCoord, int zCoord) {
 		TileEntityVlsLaunchTube entity = (TileEntityVlsLaunchTube)world.getTileEntity(x, y, z);
 
 		int Range = (int) ((Math.sqrt(((xCoord - x) * (xCoord - x)) + ((yCoord - y) * (yCoord - y)) + ((zCoord - z) * (zCoord - z)))));
 
 		if (entity.slots[0] == null || world.isRemote) {
-			return IBomb.BombReturnCode.ERROR_MISSING_COMPONENT;
+			return ILauncher.StatusReturnCode.ERROR_MISSING_COMPONENT;
 		}
 		if (Range < 250 ) {
-			return IBomb.BombReturnCode.valueOf("Target to close");
+			return ILauncher.StatusReturnCode.FAILED_TO_CLOSE;
 		}
 		if (Range > 4500 ) {
-			return IBomb.BombReturnCode.valueOf("Target out of Range");
+			return ILauncher.StatusReturnCode.FAILED_TO_FAR;
 		}
 		if (entity.power >= 75000L) {
 			if(entity.slots[0].getItem() instanceof IMissileSpawningItem) {
@@ -465,7 +465,7 @@ public class TileEntityVlsLaunchTube
 					if (GeneralConfig.enableExtendedLogging) {
 						MainRegistry.logger.log(Level.INFO, "[MISSILE] Tried to launch missile at " + x + " / " + y + " / " + z + " to " + xCoord + " / " + zCoord + "!");
 					}
-					return IBomb.BombReturnCode.LAUNCHED;
+					return ILauncher.StatusReturnCode.LAUNCHED;
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
@@ -480,7 +480,7 @@ public class TileEntityVlsLaunchTube
 			entity.power -= 75000L;
 			entity.slots[0] = null;
 			world.playSoundEffect((double)x, (double)y, (double)z, "hbm:weapon.missileTakeOff", 2.0f, 1.0f);
-			return IBomb.BombReturnCode.LAUNCHED;
+			return ILauncher.StatusReturnCode.LAUNCHED;
 		}
 		if (entity.slots[0] != null && entity.slots[0].getItem() == wartecmodItems.itemMissileAntiBallisticNuclear && entity.power >= 5000L) {
 			EntityMissileAntiBallisticNuclear missile = new EntityMissileAntiBallisticNuclear(world);
@@ -491,7 +491,7 @@ public class TileEntityVlsLaunchTube
 			entity.power -= 5000L;
 			entity.slots[0] = null;
 			world.playSoundEffect((double)x, (double)y, (double)z, "hbm:weapon.missileTakeOff", 2.0f, 1.0f);
-			return IBomb.BombReturnCode.LAUNCHED;
+			return ILauncher.StatusReturnCode.LAUNCHED;
 		}
 		if (entity.slots[0] != null && entity.slots[0].getItem() == wartecmodItems.itemMissileAntiAirTier1 && entity.power >= 50000L) {
 			EntityMissileAntiAirTier1 missile = new EntityMissileAntiAirTier1(world);
@@ -502,9 +502,9 @@ public class TileEntityVlsLaunchTube
 			entity.power -= 5000L;
 			entity.slots[0] = null;
 			world.playSoundEffect((double)x, (double)y, (double)z, "hbm:weapon.missileTakeOff", 2.0f, 1.0f);
-			return IBomb.BombReturnCode.LAUNCHED;
+			return ILauncher.StatusReturnCode.LAUNCHED;
 		}
-		return IBomb.BombReturnCode.ERROR_MISSING_COMPONENT;
+		return ILauncher.StatusReturnCode.ERROR_MISSING_COMPONENT;
 	}
 }
 
