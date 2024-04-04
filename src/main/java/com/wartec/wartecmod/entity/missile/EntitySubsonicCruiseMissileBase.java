@@ -249,15 +249,15 @@ public abstract class EntitySubsonicCruiseMissileBase extends Entity implements 
 		CruiseMissilePosition = Math.sqrt(((this.posX - startX) * (this.posX - startX)) + ((this.posY - startY) * (this.posY - startY)) + ((this.posZ - startZ) * (this.posZ - startZ)));
 
 		//2. Geschwindigkeiten
-		if(velocity < 1)
-			velocity = 1;
-		if(this.ticksExisted > 40)
-			velocity = 3;
-		else if(this.ticksExisted > 20)
+		if(velocity < 2)
 			velocity = 2;
-		if(this.CruiseMissilePosition > this.startsonicspeed && isSubsonic && !this.worldObj.isRemote)
+		if(this.ticksExisted > 40)
+			velocity = 4;
+		else if(this.ticksExisted > 20)
 			velocity = 3;
-		this.velocityChanged = true;
+		//if(this.CruiseMissilePosition > this.startsonicspeed && isSubsonic && !this.worldObj.isRemote)
+			//velocity = 4;
+		//this.velocityChanged = true;
 
 
 		this.dataWatcher.updateObject(8, Integer.valueOf(this.health));

@@ -1,6 +1,7 @@
 package com.wartec.wartecmod.entity;
 
 import com.wartec.wartecmod.entity.missile.*;
+import com.wartec.wartecmod.entity.submunition.EntityBombletHE;
 import com.wartec.wartecmod.wartecmod;
 import cpw.mods.fml.common.registry.EntityRegistry;
 
@@ -35,6 +36,9 @@ public class wartecmodEntities {
         EntityRegistry.registerModEntity(EntityCruiseMissileMiniNuke.class, "entity_Cruise_Missile_Mini_Nuke", 27, mod, 1000, 1, true);
         EntityRegistry.registerModEntity(EntityCruiseMissileWP.class, "entity_Cruise_Missile_WP", 28, mod, 1000, 1, true);
         EntityRegistry.registerModEntity(EntityCruiseMissileFragmentation.class, "entity_Cruise_Missile_Fragmentation", 29, mod, 1000, 1, true);
-        }
+        EntityRegistry.registerModEntity(EntityBombletHE.class, "entity_Bomblet_HE", 30, mod, 1000, 1, true);
+        EntityRegistry.registerModEntity(EntityCruiseMissileSubsonic.EntityCruiseMissileTest.class, "entity_Cruise_Missile_Test", 31, mod, 1000, 1, true);
+
+    }
     
 }

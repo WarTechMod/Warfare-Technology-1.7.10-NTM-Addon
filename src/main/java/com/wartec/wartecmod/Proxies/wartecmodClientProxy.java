@@ -39,7 +39,7 @@ public class wartecmodClientProxy extends wartecmodProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityCruiseMissileEmp.class, new RenderCruiseMissileEmp());
         RenderingRegistry.registerEntityRenderingHandler(EntityCruiseMissileCluster.class, new RenderCruiseMissileCluster());
         RenderingRegistry.registerEntityRenderingHandler(EntityCruiseMissileFragmentation.class, new RenderCruiseMissileFragmentation());
-        RenderingRegistry.registerEntityRenderingHandler(EntityCruiseMissileDecoy.class, new RenderCruiseMissileDecoy());
+        RenderingRegistry.registerEntityRenderingHandler(EntityCruiseMissileSubsonic.EntityCruiseMissileTest.class, new RenderCruiseMissileDecoy()); //Decoy
         RenderingRegistry.registerEntityRenderingHandler(EntityCruiseMissileMiniNuke.class, new RenderCruiseMissileMiniNuke());
         RenderingRegistry.registerEntityRenderingHandler(EntityCruiseMissileWP.class, new RenderCruiseMissileWP());
 
