@@ -32,7 +32,6 @@ package com.wartec.wartecmod.blocks.vls;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.MultiblockHandlerXR;
-import com.hbm.interfaces.IBomb;
 import com.wartec.wartecmod.blocks.wartecmodBlocks;
 import com.wartec.wartecmod.interfaces.ILauncher;
 import com.wartec.wartecmod.tileentity.vls.TileEntityVlsLaunchTube;

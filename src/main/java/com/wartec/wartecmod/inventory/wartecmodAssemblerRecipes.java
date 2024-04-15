@@ -67,25 +67,19 @@ public class wartecmodAssemblerRecipes {
 		
 //Parts
 		com.hbm.inventory.recipes.AssemblerRecipes.makeRecipe(new ComparableStack(wartecmodItems.itemEngineInletSectionTier1, 1), new AStack[] {
-				   new ComparableStack(ModItems.mechanism_revolver_2, 2),
-				   new ComparableStack(ModItems.hull_small_steel, 1), },150);
+				   new ComparableStack(ModItems.mechanism_revolver_2, 2), },150);
 		com.hbm.inventory.recipes.AssemblerRecipes.makeRecipe(new ComparableStack(wartecmodItems.itemTurbofanEngineTier1, 1), new AStack[] {
-				   new ComparableStack(ModItems.hull_big_titanium, 1), 
-				   new ComparableStack(ModItems.hull_small_steel, 1),
 				   new ComparableStack(ModItems.turbine_tungsten, 2), 
-				   new ComparableStack(ModItems.turbine_titanium, 2), 
-				   new ComparableStack(ModItems.bolt_compound, 1),
+				   new ComparableStack(ModItems.turbine_titanium, 2),
 				   new ComparableStack(ModItems.ingot_red_copper, 4),
 				   new ComparableStack(ModItems.wire_copper, 6), 
 				   new ComparableStack(wartecmodItems.itemCruiseFinsSmall, 4),},300);
-		com.hbm.inventory.recipes.AssemblerRecipes.makeRecipe(new ComparableStack(wartecmodItems.itemSolidBooster, 1), new AStack[] { 
-				new ComparableStack(ModItems.hull_big_steel, 1),
+		com.hbm.inventory.recipes.AssemblerRecipes.makeRecipe(new ComparableStack(wartecmodItems.itemSolidBooster, 1), new AStack[] {
 				new ComparableStack(Items.flint_and_steel, 1),
 				new ComparableStack(ModItems.rocket_fuel, 5), },125);
 		com.hbm.inventory.recipes.AssemblerRecipes.makeRecipe(new ComparableStack(wartecmodItems.itemCruiseMissileNoWarheadTier1, 1), new AStack[] { 
 				new ComparableStack(ModItems.sphere_steel, 1),
 				new ComparableStack(ModItems.circuit_targeting_tier1, 1),
-				new ComparableStack(ModItems.hull_big_steel, 5),
 				new ComparableStack(ModItems.fuel_tank_large, 1),
 				new ComparableStack(ModItems.mechanism_revolver_2, 2),
 				new ComparableStack(wartecmodItems.itemCruiseWings, 1),
@@ -94,7 +88,6 @@ public class wartecmodAssemblerRecipes {
 				new ComparableStack(wartecmodItems.itemSolidBooster, 1), },500);
 		///
 		com.hbm.inventory.recipes.AssemblerRecipes.makeRecipe(new ComparableStack(wartecmodItems.itemWarheadNuclearCM, 1), new AStack[] {
-				new ComparableStack(ModItems.hull_small_steel, 1), 
 				   new ComparableStack(ModItems.sphere_steel, 1),
 				   new ComparableStack(ModItems.nugget_pu239, 13), 
 				   new OreDictStack(OreDictManager.getReflector(), 2),
@@ -149,8 +142,6 @@ public class wartecmodAssemblerRecipes {
 				   new ComparableStack(ModBlocks.block_tungsten, 1),
 				   new ComparableStack(ModBlocks.block_u238, 1),},100);
 		com.hbm.inventory.recipes.AssemblerRecipes.makeRecipe(new ComparableStack(wartecmodItems.itemWarheadHCM, 1), new AStack[] {
-				new ComparableStack(ModItems.hull_big_steel, 1), 
-				new ComparableStack(ModItems.hull_small_steel, 1),
 				new ComparableStack(ModItems.ingot_pu239, 1), 
 				new ComparableStack(Blocks.tnt, 8), 
 				new OreDictStack(OreDictManager.getReflector(), 3), 

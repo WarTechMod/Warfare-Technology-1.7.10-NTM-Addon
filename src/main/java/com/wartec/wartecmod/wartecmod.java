@@ -1,5 +1,7 @@
 package com.wartec.wartecmod;
 
+import com.hbm.tileentity.bomb.TileEntityLaunchPadBase;
+import com.hbm.tileentity.turret.TileEntityTurretBaseNT;
 import com.wartec.wartecmod.Proxies.wartecmodProxy;
 import com.wartec.wartecmod.blocks.wartecmodBlocks;
 import com.wartec.wartecmod.entity.wartecmodEntities;
@@ -12,6 +14,7 @@ import com.wartec.wartecmod.tileentity.TileEntityRegistry;
 import com.wartec.wartecmod.inventory.wartecmodAssemblerRecipes;
 import com.wartec.wartecmod.inventory.wartecmodShredderRecipes;
 import com.wartec.wartecmod.inventory.wartecmodVanillaRecipes;
+import com.wartec.wartecmod.tileentity.vls.TileEntityVerticalLaunchTubeBase;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -90,6 +93,7 @@ public class wartecmod {
 		wartecHazardRegistry.registerItems();
 		TileEntityRegistry.registerTileEntities();
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new WartecmodGUIHandler());
+		TileEntityVerticalLaunchTubeBase.registerLaunchables();
 
 		
 		
@@ -103,6 +107,8 @@ public class wartecmod {
 		wartecmodEntities.registerAll(this);
 		
 		config = new Configuration(event.getSuggestedConfigurationFile());
+
+
 
 	}
 	
@@ -121,8 +127,14 @@ public class wartecmod {
 		wartecmodVanillaRecipes.VanillaRecipes();
 		proxy.registerRenderers();
 		SatelliteRegistry.registerAll();
-		
-	
+
+		try{
+			Class<?> clazz = Class.forName("EntityChecker");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+
 	}
 }
 

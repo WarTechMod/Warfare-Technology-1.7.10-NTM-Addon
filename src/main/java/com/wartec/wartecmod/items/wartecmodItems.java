@@ -10,6 +10,9 @@
 package com.wartec.wartecmod.items;
 
 import com.hbm.items.machine.ItemSatChip;
+import com.hbm.items.weapon.ItemMissile;
+import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.wartec.wartecmod.entity.missile.*;
 import com.wartec.wartecmod.items.tool.*;
 import com.wartec.wartecmod.wartecmod;
@@ -47,7 +50,6 @@ public class wartecmodItems {
     public static Item sat_nuclear;
     public static Item sat_emp;
     public static Item itemCruiseMissileHe;
-    public static Item itemCruiseMissileCluster;
     public static Item itemMissileStrongAntiBallistic;
     public static Item itemCruiseMissileNuclear;
     public static Item itemCruiseMissileH;
@@ -79,6 +81,7 @@ public class wartecmodItems {
     public static Item itemMincedMeatCooked;
     public static Item itemTargetFinder;
     public static Item itemMissileStrikeCaller;
+    public static Item itemCruiseMissileCluster;
 
     public static void Items() {
         wartecmodItems.initializeItem();
@@ -112,21 +115,9 @@ public class wartecmodItems {
         itemCruiseFinsSmall = new Item().setCreativeTab(wartecmod.tabwartecmodparts).setMaxStackSize(64).setUnlocalizedName("ItemCruiseFinsSmall").setTextureName("wartecmod:ItemCruiseFinsSmall");
         itemCruiseFinsBig = new Item().setCreativeTab(wartecmod.tabwartecmodparts).setMaxStackSize(64).setUnlocalizedName("ItemCruiseFinsBig").setTextureName("wartecmod:ItemCruiseFinsBig");
         itemCruiseWings = new Item().setCreativeTab(wartecmod.tabwartecmodparts).setMaxStackSize(64).setUnlocalizedName("ItemCruiseWings").setTextureName("wartecmod:ItemCruiseWings");
-        itemCruiseMissileHe = new ItemCruiseMissileSubsonic(EntityCruiseMissileHE.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setUnlocalizedName("ItemCruiseMissileHe").setTextureName("wartecmod:ItemCruiseMissileHe");
-        itemCruiseMissileEmp = new ItemCruiseMissileSubsonic(EntityCruiseMissileEmp.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setUnlocalizedName("ItemCruiseMissileEmp").setTextureName("wartecmod:ItemCruiseMissileEmp");
-        itemCruiseMissileNuclear = new ItemCruiseMissileSubsonic(EntityCruiseMissileNuclear.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setUnlocalizedName("ItemCruiseMissileNuclear").setTextureName("wartecmod:ItemCruiseMissileNuclear");
-        itemCruiseMissileH = new ItemCruiseMissileSubsonic(EntityCruiseMissileH.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setUnlocalizedName("ItemCruiseMissileH").setTextureName("wartecmod:ItemCruiseMissileH");
-        itemCruiseMissileCluster = new ItemCruiseMissileSubsonic(EntityCruiseMissileCluster.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setUnlocalizedName("ItemCruiseMissileCluster").setTextureName("wartecmod:ItemCruiseMissileCluster");
         itemKalibrMissile = new ItemKalibrMissile().setCreativeTab(wartecmod.tabwartecmodcruisemissiles);
         itemCj10Missile = new ItemCj10Missile(EntityCJ10Missile.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles);
         itemTomahawkMissile = new ItemTomahawkMissile().setCreativeTab(wartecmod.tabwartecmodcruisemissiles);
-        itemCruiseMissileBuster = new ItemCruiseMissileSubsonic(EntityCruiseMissileBuster.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setUnlocalizedName("ItemCruiseMissileBuster").setTextureName("wartecmod:ItemCruiseMissileBuster");
-        itemCruiseMissileEmp = new ItemCruiseMissileSubsonic(EntityCruiseMissileEmp.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setUnlocalizedName("ItemCruiseMissileEmp").setTextureName("wartecmod:ItemCruiseMissileEmp");
-        itemCruiseMissileTB = new ItemCruiseMissileSubsonic(EntityCruiseMissileTB.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setUnlocalizedName("ItemCruiseMissileFAE").setTextureName("wartecmod:ItemCruiseMissileFAE");
-        itemCruiseMissileDecoy = new ItemCruiseMissileSubsonic(EntityCruiseMissileSubsonic.EntityCruiseMissileTest.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setUnlocalizedName("ItemCruiseMissileDecoy").setTextureName("wartecmod:ItemCruiseMissileDecoy");
-        itemCruiseMissileFragmentation = new ItemCruiseMissileSubsonic(EntityCruiseMissileFragmentation.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setUnlocalizedName("ItemCruiseMissileFragmentation").setTextureName("wartecmod:ItemCruiseMissileFragmentation");
-        itemCruiseMissileMiniNuke = new ItemCruiseMissileSubsonic(EntityCruiseMissileMiniNuke.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setUnlocalizedName("ItemCruiseMissileMiniNuke").setTextureName("wartecmod:ItemCruiseMissileMiniNuke");
-        itemCruiseMissileWP = new ItemCruiseMissileSubsonic(EntityCruiseMissileWP.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setUnlocalizedName("ItemCruiseMissileWP").setTextureName("wartecmod:ItemCruiseMissileWP");
         itemMissileSLBM = new Item().setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setMaxStackSize(1).setUnlocalizedName("ItemMissileSLBM").setTextureName("wartecmod:ItemMissileSLBM");
         itemIskanderMissile = new ItemIskanderMissile().setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setMaxStackSize(1).setUnlocalizedName("ItemIskanderMissile").setTextureName("wartecmod:ItemIskanderMissile");
         itemLrhwMissile = new Item().setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setMaxStackSize(1).setUnlocalizedName("ItemLrhwMissile").setTextureName("wartecmod:ItemLrhwMissile");
@@ -147,6 +138,19 @@ public class wartecmodItems {
         itemTargetFinder = new ItemTargetFinder().setUnlocalizedName("ItemTargetFinder").setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName("wartecmod:ItemTargetFinder");
         itemMissileStrikeCaller = new ItemMissileStrikeCaller().setUnlocalizedName("ItemMissileStrikeCaller").setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName("wartecmod:ItemMissileStrikeCaller");
         itemMissileAsat = new Item().setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setMaxStackSize(1).setUnlocalizedName("ItemMissileASAT").setTextureName("wartecmod:ItemMissileASAT");
+
+//New CruiseMissiles
+        itemCruiseMissileCluster = new ItemCruiseMissile(ItemCruiseMissile.MissileFormFactor.MICRO, ItemCruiseMissile.MissileTier.Tier0).setUnlocalizedName("ItemCruiseMissileCluster").setMaxStackSize(1).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemCruiseMissileCluster");
+        itemCruiseMissileDecoy = new ItemCruiseMissile(ItemCruiseMissile.MissileFormFactor.MICRO, ItemCruiseMissile.MissileTier.Tier0).setUnlocalizedName("ItemCruiseMissileDecoy").setMaxStackSize(1).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemCruiseMissileDecoy");
+        itemCruiseMissileHe = new ItemCruiseMissile(ItemCruiseMissile.MissileFormFactor.MICRO, ItemCruiseMissile.MissileTier.Tier0).setUnlocalizedName("ItemCruiseMissileHe").setMaxStackSize(1).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemCruiseMissileHe");
+        itemCruiseMissileEmp = new ItemCruiseMissile(ItemCruiseMissile.MissileFormFactor.MICRO, ItemCruiseMissile.MissileTier.Tier0).setUnlocalizedName("ItemCruiseMissileEmp").setMaxStackSize(1).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemCruiseMissileEmp");
+        itemCruiseMissileNuclear = new ItemCruiseMissile(ItemCruiseMissile.MissileFormFactor.MICRO, ItemCruiseMissile.MissileTier.Tier0).setUnlocalizedName("ItemCruiseMissileNuclear").setMaxStackSize(1).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemCruiseMissileNuclear");
+        itemCruiseMissileH = new ItemCruiseMissile(ItemCruiseMissile.MissileFormFactor.MICRO, ItemCruiseMissile.MissileTier.Tier0).setUnlocalizedName("ItemCruiseMissileH").setMaxStackSize(1).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemCruiseMissileH");
+        itemCruiseMissileBuster = new ItemCruiseMissile(ItemCruiseMissile.MissileFormFactor.MICRO, ItemCruiseMissile.MissileTier.Tier0).setUnlocalizedName("ItemCruiseMissileBuster").setMaxStackSize(1).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemCruiseMissileBuster");
+        itemCruiseMissileTB = new ItemCruiseMissile(ItemCruiseMissile.MissileFormFactor.MICRO, ItemCruiseMissile.MissileTier.Tier0).setUnlocalizedName("ItemCruiseMissileTB").setMaxStackSize(1).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemCruiseMissileTB");
+        itemCruiseMissileFragmentation = new ItemCruiseMissile(ItemCruiseMissile.MissileFormFactor.MICRO, ItemCruiseMissile.MissileTier.Tier0).setUnlocalizedName("ItemCruiseMissileFragmentation").setMaxStackSize(1).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemCruiseMissileFragmentation");
+        itemCruiseMissileMiniNuke = new ItemCruiseMissile(ItemCruiseMissile.MissileFormFactor.MICRO, ItemCruiseMissile.MissileTier.Tier0).setUnlocalizedName("ItemCruiseMissileMiniNuke").setMaxStackSize(1).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemCruiseMissileMiniNuke");
+        itemCruiseMissileWP = new ItemCruiseMissile(ItemCruiseMissile.MissileFormFactor.MICRO, ItemCruiseMissile.MissileTier.Tier0).setUnlocalizedName("ItemCruiseMissileWP").setMaxStackSize(1).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemCruiseMissileWP");
 
     }
 
@@ -177,17 +181,6 @@ public class wartecmodItems {
         GameRegistry.registerItem(itemCruiseWings, (String)"ItemCruiseWings");
         GameRegistry.registerItem(itemPlateU238, (String)itemPlateU238.getUnlocalizedName());
         GameRegistry.registerItem(itemIngotArmorSteel, (String)"ItemIngotArmorSteel");
-        GameRegistry.registerItem(itemCruiseMissileHe, (String)"ItemCruiseMissileHe");
-        GameRegistry.registerItem(itemCruiseMissileCluster, (String)"ItemCruiseMissileCluster");
-        GameRegistry.registerItem(itemCruiseMissileBuster, (String)"ItemCruiseMissileBuster");
-        GameRegistry.registerItem(itemCruiseMissileEmp, (String)"ItemCruiseMissileEmp");
-        GameRegistry.registerItem(itemCruiseMissileTB, (String)"ItemCruiseMissileTB");
-        GameRegistry.registerItem(itemCruiseMissileNuclear, (String)"ItemCruiseMissileNuclear");
-        GameRegistry.registerItem(itemCruiseMissileH, (String)"ItemCruiseMissileH");
-        GameRegistry.registerItem(itemCruiseMissileDecoy, (String)"ItemCruiseMissileDecoy");
-        GameRegistry.registerItem(itemCruiseMissileFragmentation, (String)"ItemCruiseMissileFragmentation");
-        GameRegistry.registerItem(itemCruiseMissileMiniNuke, (String)"ItemCruiseMissileMiniNuke");
-        GameRegistry.registerItem(itemCruiseMissileWP, (String)"ItemCruiseMissileWP");
         GameRegistry.registerItem(itemSupersonicCruiseMissileHE, (String)"ItemSupersonicCruiseMissileHE");
         GameRegistry.registerItem(itemSupersonicCruiseMissileH, (String)"ItemSupersonicCruiseMissileH");
         GameRegistry.registerItem(itemHypersonicCruiseMissileHE, (String)"ItemHypersonicCruiseMissileHE");
@@ -212,6 +205,18 @@ public class wartecmodItems {
         GameRegistry.registerItem(itemMissileStrikeCaller, itemMissileStrikeCaller.getUnlocalizedName());
         GameRegistry.registerItem(itemMissileAsat, (String)"ItemMissileASAT");
 
+        GameRegistry.registerItem(itemCruiseMissileCluster, itemCruiseMissileCluster.getUnlocalizedName());
+        GameRegistry.registerItem(itemCruiseMissileDecoy, itemCruiseMissileDecoy.getUnlocalizedName());
+        GameRegistry.registerItem(itemCruiseMissileHe, itemCruiseMissileHe.getUnlocalizedName());
+        GameRegistry.registerItem(itemCruiseMissileEmp, itemCruiseMissileEmp.getUnlocalizedName());
+        GameRegistry.registerItem(itemCruiseMissileNuclear, itemCruiseMissileNuclear.getUnlocalizedName());
+        GameRegistry.registerItem(itemCruiseMissileH, itemCruiseMissileH.getUnlocalizedName());
+        GameRegistry.registerItem(itemCruiseMissileBuster, itemCruiseMissileBuster.getUnlocalizedName());
+        GameRegistry.registerItem(itemCruiseMissileTB, itemCruiseMissileTB.getUnlocalizedName());
+        GameRegistry.registerItem(itemCruiseMissileFragmentation, itemCruiseMissileFragmentation.getUnlocalizedName());
+        GameRegistry.registerItem(itemCruiseMissileMiniNuke, itemCruiseMissileMiniNuke.getUnlocalizedName());
+        GameRegistry.registerItem(itemCruiseMissileWP, itemCruiseMissileWP.getUnlocalizedName());
     }
+
 }
 

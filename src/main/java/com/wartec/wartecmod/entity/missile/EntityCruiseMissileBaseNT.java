@@ -1,6 +1,7 @@
 package com.wartec.wartecmod.entity.missile;
 
 import api.hbm.entity.IRadarDetectableNT;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.projectile.EntityThrowableInterp;
 import com.hbm.explosion.ExplosionLarge;
@@ -9,7 +10,9 @@ import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.items.weapon.ItemMissile;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.TrackerUtil;
+import com.wartec.wartecmod.blocks.wartecmodBlocks;
 import com.wartec.wartecmod.entity.submunition.EntityBombletHE;
+import com.wartec.wartecmod.items.ItemCruiseMissile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityTrackerEntry;
@@ -27,22 +30,30 @@ import net.minecraftforge.common.ForgeChunkManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.hbm.lib.ModDamageSource.exhaust;
+
 public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp implements IChunkLoader, IRadarDetectableNT {
 
     public int startX;
     public int startZ;
     public int targetX;
+    public int targetY;
     public int targetZ;
     public double velocity;
     public double decelY;
     public double accelXZ;
     public boolean isCluster = false;
+    public boolean isStealth = false;
     double Distance;
+    double targetAcceleration;
+    double currentAcceleration;
+    double scaledAcceleration;
     double CruiseMissilePosition;
+    double Weg;
     double BoosterDisengagement;
     double SubmunitionDispensing;
     private ForgeChunkManager.Ticket loaderTicket;
-    public int health = 50;
+    public int health = 10;
 
     public EntityCruiseMissileBaseNT(World world) {
         super(world);
@@ -69,22 +80,25 @@ public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp im
 
         SubmunitionDispensing = (Math.sqrt(((targetX - startX)*(targetX - startX)) +  ((targetZ - startZ)*(targetZ - startZ))))*0.95;
 
-
         Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
         accelXZ = decelY = 1 / vector.lengthVector();
         decelY *= 0.25;
-        velocity = 1;
+        velocity = 5;
 
         this.rotationYaw = (float) (Math.atan2(targetX - posX, targetZ - posZ) * 180.0D / Math.PI);
 
         this.setSize(1.5F, 1.5F);
-    }
+
+        }
 
     /** Auto-generates radar blip level and all that from the item */
     public abstract ItemStack getMissileItemForInfo();
 
     @Override
     public boolean canBeSeenBy(Object radar) {
+        if(this.isStealth && !this.worldObj.isRemote && this.dataWatcher.getWatchableObjectInt(9) == 2) {
+            return false;
+        }
         return true;
     }
 
@@ -108,6 +122,7 @@ public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp im
         this.dataWatcher.addObject(9, 1);
     }
 
+
     @Override
     protected double motionMult() {
         return velocity;
@@ -125,90 +140,75 @@ public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp im
         this.lastTickPosZ = this.posZ;
         super.onUpdate();
 
-        if(velocity < 4) velocity += MathHelper.clamp_double(this.ticksExisted / 60D * 0.05D, 0, 0.05);
+        if (velocity < 4) velocity += MathHelper.clamp_double(this.ticksExisted / 60D * 0.05D, 0, 0.05);
 
-        if(!worldObj.isRemote) {
+        CruiseMissilePosition = Math.sqrt(((this.posX - startX) * (this.posX - startX)) + ((this.posZ - startZ) * (this.posZ - startZ)));
 
-            if (hasPropulsion()) {
-                this.motionY -= decelY * velocity;
 
-                Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
-                vector = vector.normalize();
-                vector.xCoord *= accelXZ;
-                vector.zCoord *= accelXZ;
+        if (this.CruiseMissilePosition < this.BoosterDisengagement && this.dataWatcher.getWatchableObjectInt(9) == 1 && !this.worldObj.isRemote) {//this.ticksExisted > 5
+            this.spawnContrail();
+            if (velocity > 4) velocity -= MathHelper.clamp_double(this.ticksExisted / 60D * 0.05D, 0, 0.05);
+        }
 
-                if (motionY > 0) {
-                    motionX += vector.xCoord * velocity;
-                    motionZ += vector.zCoord * velocity;
-                }
+        if (this.CruiseMissilePosition > this.BoosterDisengagement && this.dataWatcher.getWatchableObjectInt(9) == 1 && !this.worldObj.isRemote) {//this.ticksExisted > 205
+            this.MissileToCruiseMissile();
+        }
 
-                if (motionY < 0) {
-                    motionX -= vector.xCoord * velocity;
-                    motionZ -= vector.zCoord * velocity;
-                }
-            } else {
-                motionX *= 0.99;
-                motionZ *= 0.99;
+        if(this.Distance - 200 < this.CruiseMissilePosition && !this.worldObj.isRemote) {
+            if (velocity < 20) velocity += MathHelper.clamp_double(this.ticksExisted / 60D * 0.05D, 0, 0.05);
+        }
 
-                if (motionY > -1.5)
-                    motionY -= 0.05;
+        if(this.Distance - 50 < this.CruiseMissilePosition && !this.worldObj.isRemote) {
+            worldObj.playSoundEffect(this.targetX, this.targetY, this.targetZ, "wartecmod:weapon.CruiseMissileWhistle", 15.0F, 0.9F + rand.nextFloat() * 0.2F);
+        }
+
+        if (this.isCluster && this.Distance - 30 < this.CruiseMissilePosition && !this.worldObj.isRemote) {
+        //if (this.isCluster && this.posX == this.targetX && this.posZ == this.targetZ && !this.worldObj.isRemote) {
+            BombletSplit();
+            this.dataWatcher.updateObject(9, 3);
+        }
+
+        if (!worldObj.isRemote) {
+
+            if(hasPropulsion()) {
+            this.motionY -= decelY * velocity;
+
+            Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
+            vector = vector.normalize();
+            vector.xCoord *= accelXZ;
+            vector.zCoord *= accelXZ;
+
+            if (motionY > 0) {
+                motionX += vector.xCoord * velocity;
+                motionZ += vector.zCoord * velocity;
             }
 
-            if (this.CruiseMissilePosition < this.BoosterDisengagement && this.dataWatcher.getWatchableObjectInt(9) == 1 && !this.worldObj.isRemote) {//this.ticksExisted > 5
-                this.spawnContrail();
+            if (motionY < 0) {
+                motionX -= vector.xCoord * velocity;
+                motionZ -= vector.zCoord * velocity;
             }
-            if (this.CruiseMissilePosition > this.BoosterDisengagement && this.dataWatcher.getWatchableObjectInt(9) == 1 && !this.worldObj.isRemote) {//this.ticksExisted > 205
-                this.MissileToCruiseMissile();
-            }
-            if(this.isCluster && this.Distance-30 < this.CruiseMissilePosition && !this.worldObj.isRemote) {
-                BombletSplit();
-                //return;
-            }
+        } else {
+            motionX *= 0.99;
+            motionZ *= 0.99;
 
-            this.rotationYaw = (float) (Math.atan2(targetX - posX, targetZ - posZ) * 180.0D / Math.PI);
-            float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-            for(this.rotationPitch = (float) (Math.atan2(this.motionY, f2) * 180.0D / Math.PI) - 90; this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F);
-            EntityTrackerEntry tracker = TrackerUtil.getTrackerEntry((WorldServer) worldObj, this.getEntityId());
-            if(tracker != null) tracker.lastYaw += 100; //coax the tracker into sending smother updates
+            if (motionY > -1.5)
+                motionY -= 0.05;
+        }
 
-            loadNeighboringChunks((int) Math.floor(posX / 16), (int) Math.floor(posZ / 16));
-        } //else {
-            //this.spawnContrail();
-        //}
+        this.rotationYaw = (float) (Math.atan2(targetX - posX, targetZ - posZ) * 180.0D / Math.PI);
+        float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+        for (this.rotationPitch = (float) (Math.atan2(this.motionY, f2) * 180.0D / Math.PI) - 90; this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
+            ;
+        EntityTrackerEntry tracker = TrackerUtil.getTrackerEntry((WorldServer) worldObj, this.getEntityId());
+        if (tracker != null) tracker.lastYaw += 100; //coax the tracker into sending smother updates
+
+        loadNeighboringChunks((int) Math.floor(posX / 16), (int) Math.floor(posZ / 16));
+    }
 
         while(this.rotationPitch - this.prevRotationPitch >= 180.0F) this.prevRotationPitch += 360.0F;
         while(this.rotationYaw - this.prevRotationYaw < -180.0F) this.prevRotationYaw -= 360.0F;
         while(this.rotationYaw - this.prevRotationYaw >= 180.0F) this.prevRotationYaw += 360.0F;
     }
-
-    public void BombletSplit() {
-        if (this.Distance-30 < this.CruiseMissilePosition) {
-
-            if (worldObj.isRemote)
-                return;
-            ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ, 7);
-            this.setDead();
-
-            for (int i = 0; i < 100; i++) {
-
-                EntityBombletHE Bomblet = new EntityBombletHE(worldObj);
-                Bomblet.posX = posX;
-                Bomblet.posY = posY;
-                Bomblet.posZ = posZ;
-                Bomblet.motionX = motionX + rand.nextGaussian() * 0.7D;
-                Bomblet.motionY = motionY + rand.nextGaussian() * 0.7D;
-                Bomblet.motionZ = motionZ + rand.nextGaussian() * 0.7D;
-                Bomblet.ticksExisted = 52;
-
-                worldObj.spawnEntityInWorld(Bomblet);
-            }
-        }
-    }
-
-    public boolean hasPropulsion() {
-        return true;
-    }
-
     protected void spawnContrail() {
         this.spawnContraolWithOffset(0, 0, 0);
     }
@@ -227,6 +227,7 @@ public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp im
             data.setDouble("posX", posX - vec.xCoord * j + offsetX);
             data.setDouble("posY", posY - vec.yCoord * j + offsetY);
             data.setDouble("posZ", posZ - vec.zCoord * j + offsetZ);
+            data.setString("mode", "soyuz");
             data.setString("type", "missileContrail");
             data.setFloat("scale", this.getContrailScale());
             data.setDouble("moX", -thrust.xCoord);
@@ -236,6 +237,35 @@ public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp im
             MainRegistry.proxy.effectNT(data);
         }
     }
+    public void BombletSplit() {
+        if (this.Distance-30 < this.CruiseMissilePosition) {
+        //if (this.posX == this.targetX && this.posZ == this.targetZ) {
+
+            if (worldObj.isRemote)
+                return;
+            ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ, 7);
+            this.health = 1000;
+
+            for (int i = 0; i < 100; i++) {
+
+                EntityBombletHE Bomblet = new EntityBombletHE(worldObj);
+                Bomblet.posX = posX;
+                Bomblet.posY = posY;
+                Bomblet.posZ = posZ;
+                Bomblet.motionX = motionX + rand.nextGaussian() * 0.75D;
+                Bomblet.motionY = motionY + rand.nextGaussian() * 0.75D;
+                Bomblet.motionZ = motionZ + rand.nextGaussian() * 0.75D;
+                Bomblet.ticksExisted = 52;
+
+                worldObj.spawnEntityInWorld(Bomblet);
+            }
+        }
+    }
+
+    public boolean hasPropulsion() {
+        return true;
+    }
+
 
     protected float getContrailScale() {
         return 1F;
@@ -403,10 +433,10 @@ public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp im
     @Override
     public String getUnlocalizedName() {
         ItemStack item = this.getMissileItemForInfo();
-        if(item != null && item.getItem() instanceof ItemMissile) {
-            ItemMissile missile = (ItemMissile) item.getItem();
+        if(item != null && item.getItem() instanceof ItemCruiseMissile) {
+            ItemCruiseMissile missile = (ItemCruiseMissile) item.getItem();
             switch(missile.tier) {
-                case TIER0: return "radar.target.tier0";
+                case Tier0: return "radar.target.tier0";
                 case TIER1: return "radar.target.tier1";
                 case TIER2: return "radar.target.tier2";
                 case TIER3: return "radar.target.tier3";
@@ -421,10 +451,10 @@ public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp im
     @Override
     public int getBlipLevel() {
         ItemStack item = this.getMissileItemForInfo();
-        if(item != null && item.getItem() instanceof ItemMissile) {
-            ItemMissile missile = (ItemMissile) item.getItem();
+        if(item != null && item.getItem() instanceof ItemCruiseMissile) {
+            ItemCruiseMissile missile = (ItemCruiseMissile) item.getItem();
             switch(missile.tier) {
-                case TIER0: return IRadarDetectableNT.TIER0;
+                case Tier0: return IRadarDetectableNT.TIER0;
                 case TIER1: return IRadarDetectableNT.TIER1;
                 case TIER2: return IRadarDetectableNT.TIER2;
                 case TIER3: return IRadarDetectableNT.TIER3;

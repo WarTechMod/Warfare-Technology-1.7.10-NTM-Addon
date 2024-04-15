@@ -1,5 +1,6 @@
 package com.wartec.wartecmod.tileentity.launcher;
 
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -7,7 +8,6 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import com.wartec.wartecmod.packet.PacketRegistry;
 import com.wartec.wartecmod.packet.TEBallisticMissileLauncherMissilePacket;
 
-import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,7 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityBallisticMissileLauncher extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser {
+public class TileEntityBallisticMissileLauncher extends TileEntityLoadedBase implements ISidedInventory, IEnergyReceiverMK2 {
 
 	public ItemStack slots[];
 	

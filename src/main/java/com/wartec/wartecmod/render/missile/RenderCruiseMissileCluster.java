@@ -34,6 +34,9 @@ public class RenderCruiseMissileCluster extends Render {
         	ResourceManager.entity_Cruise_Missile_Wings.renderAll();
         	ResourceManager.entity_Cruise_Missile_Fins.renderAll();
         }
+		if(missile.getDataWatcher().getWatchableObjectInt(9) == 3) {
+			ResourceManager.entity_Cruise_Missile_Fins.renderAll();
+		}
         GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 	}

@@ -20,6 +20,7 @@ import java.util.List;
 public class ItemCruiseMissileSubsonic
 extends Item
 implements IMissileSpawningItem {
+    public int subsonic;
     Class<? extends Entity> missile;
 
     public ItemCruiseMissileSubsonic(Class<? extends Entity> missile) {
@@ -41,5 +42,6 @@ implements IMissileSpawningItem {
         list.add(EnumChatFormatting.BOLD + "Inaccuracy: " + EnumChatFormatting.GREEN + "< 3 Blocks");
         list.add(EnumChatFormatting.BOLD + "Health: " + EnumChatFormatting.GREEN + "10.0HP");
     }
+
 }
 

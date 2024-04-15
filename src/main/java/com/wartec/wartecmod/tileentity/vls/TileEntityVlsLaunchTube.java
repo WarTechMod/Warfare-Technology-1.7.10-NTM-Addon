@@ -22,13 +22,13 @@
  */
 package com.wartec.wartecmod.tileentity.vls;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemMissile;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
@@ -68,7 +68,7 @@ import java.util.List;
 public class TileEntityVlsLaunchTube
 		extends TileEntityLoadedBase
 		implements ISidedInventory,
-		IEnergyUser {
+		IEnergyReceiverMK2 {
 	public ItemStack[] slots = new ItemStack[3];
 	public long power;
 	private static final int[] slots_top = new int[]{0};
@@ -439,7 +439,7 @@ public class TileEntityVlsLaunchTube
 			return ILauncher.StatusReturnCode.FAILED_TO_FAR;
 		}
 		if (entity.power >= 75000L) {
-			if(entity.slots[0].getItem() instanceof IMissileSpawningItem) {
+			if(entity.slots[0].getItem() instanceof ItemMissile) {
 				Class<? extends Entity> missile = ((IMissileSpawningItem) entity.slots[0].getItem()).getMissile();
 				Entity missileEntity;
 				try {

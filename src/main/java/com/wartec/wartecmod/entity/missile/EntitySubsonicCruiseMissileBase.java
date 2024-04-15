@@ -1,7 +1,6 @@
 package com.wartec.wartecmod.entity.missile;
 
 import api.hbm.entity.IRadarDetectable;
-import com.hbm.entity.grenade.EntityGrenadeSmart;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.main.MainRegistry;
