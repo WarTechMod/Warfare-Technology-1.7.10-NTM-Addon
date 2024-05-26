@@ -19,6 +19,8 @@ import java.util.List;
 @Deprecated
 public abstract class EntityBombletBase extends EntityThrowable {
 
+    public boolean isChemical = false;
+
     private ForgeChunkManager.Ticket loaderTicket;
 
     public EntityBombletBase(World p_i1773_1_) {

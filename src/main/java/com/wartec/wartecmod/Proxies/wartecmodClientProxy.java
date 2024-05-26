@@ -1,6 +1,8 @@
 package com.wartec.wartecmod.Proxies;
 
 
+import com.hbm.render.item.ItemRenderMissileGeneric;
+import com.hbm.render.tileentity.RenderLaunchPad;
 import com.wartec.wartecmod.entity.missile.*;
 import com.wartec.wartecmod.entity.missile.EntityCruiseMissileSubsonic.EntityCruiseMissileNuclear;
 import com.wartec.wartecmod.items.wartecmodItems;
@@ -13,7 +15,6 @@ import com.wartec.wartecmod.render.tileentity.RenderTileEntityBallisticMissileLa
 import com.wartec.wartecmod.render.tileentity.RenderTileEntityDecoBlock;
 import com.wartec.wartecmod.render.tileentity.vls.RenderTileEntityVlsExhaust;
 import com.wartec.wartecmod.render.tileentity.vls.RenderTileEntityVlsLaunchTube;
-import com.wartec.wartecmod.render.tileentity.vls.RenderVerticalLaunchTube;
 import com.wartec.wartecmod.tileentity.deco.TileEntityDecoBlock;
 import com.wartec.wartecmod.tileentity.launcher.TileEntityBallisticMissileLauncher;
 import com.wartec.wartecmod.tileentity.vls.TileEntityVerticalLaunchTube;
@@ -32,7 +33,7 @@ public class wartecmodClientProxy extends wartecmodProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVlsLaunchTube.class, new RenderTileEntityVlsLaunchTube());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVlsExhaust.class, new RenderTileEntityVlsExhaust());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBallisticMissileLauncher.class, new RenderTileEntityBallisticMissileLauncher());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVerticalLaunchTube.class, new RenderVerticalLaunchTube());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVerticalLaunchTube.class, new RenderLaunchPad());
 
          //Entities
     	RenderingRegistry.registerEntityRenderingHandler(EntityCruiseMissileSubsonic.EntityCruiseMissileHE.class, new RenderCruiseMissileHE());
@@ -57,8 +58,9 @@ public class wartecmodClientProxy extends wartecmodProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityKalibrMissile.class, new RenderKalibrMissile());
         RenderingRegistry.registerEntityRenderingHandler(EntitySupersonicCruiseMissileH.class, new RenderSupersonicCruiseMissileH());
         RenderingRegistry.registerEntityRenderingHandler(EntityHypersonicCruiseMissileNuclear.class, new RenderHypersonicCruiseMissileNuclear());
-        RenderingRegistry.registerEntityRenderingHandler(EntityMissileMicroGas.class, new RenderMissileMicroGas());
-        RenderingRegistry.registerEntityRenderingHandler(EntityMissileMicroNeutron.class, new RenderMissileMicroNeutron());
+        RenderingRegistry.registerEntityRenderingHandler(EntityMissileMicroGas.class, new RenderMissileMicro());
+        RenderingRegistry.registerEntityRenderingHandler(EntityMissileMicroNeutron.class, new RenderMissileMicro());
+        RenderingRegistry.registerEntityRenderingHandler(EntityMissileMicroPhosgene.class, new RenderMissileMicro());
         RenderingRegistry.registerEntityRenderingHandler(EntityMissileAntiBallisticNuclear.class, new RenderMissileAntiBallisticNuclear());
         RenderingRegistry.registerEntityRenderingHandler(EntityMissileAntiAirTier1.class, new RenderMissileAntiAirTier1());
         RenderingRegistry.registerEntityRenderingHandler(EntitySatelliteMissileNuclear.class, new RenderSatelliteMissileNuclear());
@@ -70,7 +72,20 @@ public class wartecmodClientProxy extends wartecmodProxy {
 		MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemTomahawkMissile, new ItemRenderTomahawkMissile());
 		MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemCj10Missile, new ItemRenderCj10Missile());
 		MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemIskanderMissile, new ItemRenderIskanderMissile());
-		
-		
-	}
+        MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemMissileMicroGas, new ItemRenderMissileGeneric(ItemRenderMissileGeneric.RenderMissileType.TYPE_TIER0));
+        MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemMissileMicroNeutron, new ItemRenderMissileGeneric(ItemRenderMissileGeneric.RenderMissileType.TYPE_TIER0));
+
+        MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemCruiseMissileH, new ItemRenderMissileGeneric(ItemRenderMissileGeneric.RenderMissileType.TYPE_TIER3));
+        MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemCruiseMissileHe, new ItemRenderMissileGeneric(ItemRenderMissileGeneric.RenderMissileType.TYPE_TIER3));
+        MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemCruiseMissileNuclear, new ItemRenderMissileGeneric(ItemRenderMissileGeneric.RenderMissileType.TYPE_TIER3));
+        MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemCruiseMissileMiniNuke, new ItemRenderMissileGeneric(ItemRenderMissileGeneric.RenderMissileType.TYPE_TIER3));
+        MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemCruiseMissileFragmentation, new ItemRenderMissileGeneric(ItemRenderMissileGeneric.RenderMissileType.TYPE_TIER3));
+        MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemCruiseMissileBuster, new ItemRenderMissileGeneric(ItemRenderMissileGeneric.RenderMissileType.TYPE_TIER3));
+        MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemCruiseMissileCluster, new ItemRenderMissileGeneric(ItemRenderMissileGeneric.RenderMissileType.TYPE_TIER3));
+        MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemCruiseMissileDecoy, new ItemRenderMissileGeneric(ItemRenderMissileGeneric.RenderMissileType.TYPE_TIER3));
+        MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemCruiseMissileEmp, new ItemRenderMissileGeneric(ItemRenderMissileGeneric.RenderMissileType.TYPE_TIER3));
+        MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemCruiseMissileTB, new ItemRenderMissileGeneric(ItemRenderMissileGeneric.RenderMissileType.TYPE_TIER3));
+        MinecraftForgeClient.registerItemRenderer(wartecmodItems.itemCruiseMissileWP, new ItemRenderMissileGeneric(ItemRenderMissileGeneric.RenderMissileType.TYPE_TIER3));
+
+    }
 }

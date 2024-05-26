@@ -1,19 +1,14 @@
 package com.wartec.wartecmod.entity.logic;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityArtilleryShell;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
-import com.wartec.wartecmod.entity.missile.EntityHypersonicCruiseMissileBase;
 import com.wartec.wartecmod.entity.missile.EntitySubsonicCruiseMissileBase;
-import com.wartec.wartecmod.entity.missile.EntitySupersonicCruiseMissileBase;
-
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -23,24 +18,7 @@ import static com.hbm.items.weapon.ItemAmmoArty.rand;
 public class ExplosionLargeAdvanced {
 	
 	public boolean isDead;
-	
-	public void ExplosionAdvanced(World worldObj, double posX, double posY, double posZ, float size, float rangeMod, boolean breaksBlocks, Block slag, int slagMeta) {
-		worldObj.playSoundEffect(posX, posY, posZ, "wartecmod:entity.bombDet3", 50.0F, 0.9F + worldObj.rand.nextFloat() * 0.2F);
-		Vec3 vec = Vec3.createVectorHelper(posX, posY, posZ).normalize();
-		ExplosionVNT xnt = new ExplosionVNT(worldObj, posX, posY, posZ, size);
-		ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ, cloudFunction((int)size));
-		ExplosionLarge.spawnRubble(worldObj, posX, posY, posZ, cloudFunction((int)size));
-		ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, cloudFunction((int)size));
-		if(breaksBlocks) {
-			xnt.setBlockAllocator(new BlockAllocatorStandard(48));
-			xnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop().withBlockEffect(new BlockMutatorDebris(slag, slagMeta)));
-		}
-		xnt.setEntityProcessor(new EntityProcessorCross(7.5).withRangeMod(rangeMod));
-		xnt.setPlayerProcessor(new PlayerProcessorStandard());
-		xnt.setSFX(new ExplosionEffectStandard());
-		xnt.explode();
-		killAndClear();
-	}
+
 
 	public void ExplosionStandard(World worldObj, double posX, double posY, double posZ, float size, float rangeMod, boolean breaksBlocks, Block slag, int slagMeta) {
 		worldObj.playSoundEffect(posX, posY, posZ, "wartecmod:entity.bombDet3", 50.0F, 0.9F + worldObj.rand.nextFloat() * 0.2F);
@@ -82,14 +60,6 @@ public class ExplosionLargeAdvanced {
 	public static int cloudFunction(int i) {
 		//return (int)(345 * (1 - Math.pow(Math.E, -i/15)) + 15);
 		return (int)(850 * (1 - Math.pow(Math.E, -i/15)) + 15);
-	}
-	
-	public static int rubbleFunction(int i) {
-		return i/10;
-	}
-	
-	public static int shrapnelFunction(int i) {
-		return i/3;
 	}
 	
 	private void killAndClear() {

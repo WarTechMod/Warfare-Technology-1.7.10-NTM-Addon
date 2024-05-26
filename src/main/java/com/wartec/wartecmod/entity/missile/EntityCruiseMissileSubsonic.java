@@ -13,6 +13,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.wartec.wartecmod.blocks.wartecmodBlocks;
 import com.wartec.wartecmod.entity.logic.ExplosionLargeAdvanced;
+import com.wartec.wartecmod.items.wartecmodItems;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -45,11 +46,6 @@ public abstract class EntityCruiseMissileSubsonic extends EntityCruiseMissileBas
         list.add(new ItemStack(ModItems.ducttape, 1));
         list.add(new ItemStack(ModItems.circuit_targeting_tier1, 1));
         return list;
-    }
-
-    @Override
-    protected float getContrailScale() {
-        return 0.5F;
     }
 
     public static class EntityCruiseMissileCluster extends EntityCruiseMissileSubsonic {
@@ -174,15 +170,15 @@ public abstract class EntityCruiseMissileSubsonic extends EntityCruiseMissileBas
 
         @Override
         public ItemStack getMissileItemForInfo() {
-            return new ItemStack(ModItems.missile_test);
+            return new ItemStack(wartecmodItems.itemCruiseMissileHe);
         }
 
         @Override
         public void onImpact() {
-            ExplosionLargeAdvanced explosionLargeAdvanced = new ExplosionLargeAdvanced();
-            explosionLargeAdvanced.ExplosionAdvanced(worldObj, posX, posY, posZ, 20F, 2F, true, ModBlocks.block_slag, 1);
+            this.explodeStandard(20F, 32, false, true);
         }
     }
+
 
     public static class EntityCruiseMissileTB extends EntityCruiseMissileSubsonic {
         public EntityCruiseMissileTB(World world) {
@@ -208,7 +204,8 @@ public abstract class EntityCruiseMissileSubsonic extends EntityCruiseMissileBas
             ExplosionLargeAdvanced explosionLargeAdvanced = new ExplosionLargeAdvanced();
             explosionLargeAdvanced.ThermobaricExplosion(worldObj, posX, posY, posZ, 50F, 12F, true, ModBlocks.block_slag, 1);
             ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, 30);
-            ExplosionLargeAdvanced.standardMush(worldObj, posX, posY, posZ, 35);}
+            ExplosionLargeAdvanced.standardMush(worldObj, posX, posY, posZ, 35);
+        }
     }
 
     public static class EntityCruiseMissileBuster extends EntityCruiseMissileSubsonic {
@@ -233,171 +230,170 @@ public abstract class EntityCruiseMissileSubsonic extends EntityCruiseMissileBas
 
         @Override
         public void onImpact() {
-            ExplosionLarge.spawnShock(worldObj, posX, posY, posZ, 10 + rand.nextInt(3), 4 + rand.nextGaussian() * 2);
-            ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ, 5);
-            ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, 5, 5, 5, 15, 5);
-            for (int i = 0; i < 20; i++) {
-                this.worldObj.createExplosion(this, this.posX, this.posY + 1 - i, this.posZ, 0.5F, true);
+
+            for (int i = 0; i < 20; i++)
+                this.worldObj.createExplosion(this, this.posX, this.posY - i, this.posZ, 7.5F, true);
+            ExplosionLarge.spawnParticles(worldObj, this.posX, this.posY, this.posZ, 8);
+            ExplosionLarge.spawnShrapnels(worldObj, this.posX, this.posY, this.posZ, 8);
+            ExplosionLarge.spawnRubble(worldObj, this.posX, this.posY, this.posZ, 8);
+        }
+    }
+
+        public static class EntityCruiseMissileEmp extends EntityCruiseMissileSubsonic {
+            public EntityCruiseMissileEmp(World world) {
+                super(world);
             }
-            ExplosionLargeAdvanced explosionLargeAdvanced = new ExplosionLargeAdvanced();
-            explosionLargeAdvanced.ExplosionAdvanced(worldObj, posX, posY - 15, posZ, 20F, 2F, true, ModBlocks.block_slag, 1);
-        }
-    }
 
-    public static class EntityCruiseMissileEmp extends EntityCruiseMissileSubsonic {
-        public EntityCruiseMissileEmp(World world) {
-            super(world);
-        }
-
-        public EntityCruiseMissileEmp(World world, float x, float y, float z, int a, int b) {
-            super(world, x, y, z, a, b);
-        }
-
-        @Override
-        public ItemStack getDebrisRareDrop() {
-            return null;
-        }
-
-        @Override
-        public ItemStack getMissileItemForInfo() {
-            return new ItemStack(ModItems.missile_test);
-        }
-
-        @Override
-        public void onImpact() {
-            EntityEMP emp = new EntityEMP(worldObj);
-            emp.posX = posX;
-            emp.posY = posY;
-            emp.posZ = posZ;
-
-            worldObj.spawnEntityInWorld(emp);
-        }
-    }
-
-    public static class EntityCruiseMissileMiniNuke extends EntityCruiseMissileSubsonic {
-        public EntityCruiseMissileMiniNuke(World world) {
-            super(world);
-        }
-
-        public EntityCruiseMissileMiniNuke(World world, float x, float y, float z, int a, int b) {
-            super(world, x, y, z, a, b);
-        }
-
-        @Override
-        public ItemStack getDebrisRareDrop() {
-            return null;
-        }
-
-        @Override
-        public ItemStack getMissileItemForInfo() {
-            return new ItemStack(ModItems.missile_test);
-        }
-
-        @Override
-        public void onImpact() {
-            ExplosionNukeSmall.explode(worldObj, posX, posY, posZ, ExplosionNukeSmall.PARAMS_MEDIUM);
-        }
-    }
-
-    public static class EntityCruiseMissileFragmentation extends EntityCruiseMissileSubsonic {
-        public EntityCruiseMissileFragmentation(World world) {
-            super(world);
-        }
-
-        public EntityCruiseMissileFragmentation(World world, float x, float y, float z, int a, int b) {
-            super(world, x, y, z, a, b);
-        }
-
-        @Override
-        public ItemStack getDebrisRareDrop() {
-            return null;
-        }
-
-        @Override
-        public ItemStack getMissileItemForInfo() {
-            return new ItemStack(ModItems.missile_test);
-        }
-
-        @Override
-        public void onImpact() {
-            ExplosionLargeAdvanced explosionLargeAdvanced = new ExplosionLargeAdvanced();
-            explosionLargeAdvanced.ExplosionAdvanced(worldObj, posX, posY, posZ, 20F, 2F, false, ModBlocks.block_slag, 1);
-        }
-    }
-
-    public static class EntityCruiseMissileWP extends EntityCruiseMissileSubsonic {
-        public EntityCruiseMissileWP(World world) {
-            super(world);
-        }
-
-        public EntityCruiseMissileWP(World world, float x, float y, float z, int a, int b) {
-            super(world, x, y, z, a, b);
-        }
-
-        @Override
-        public ItemStack getDebrisRareDrop() {
-            return null;
-        }
-
-        @Override
-        public ItemStack getMissileItemForInfo() {
-            return new ItemStack(ModItems.missile_test);
-        }
-
-        @Override
-        public void onImpact() {
-            ExplosionLargeAdvanced explosionLargeAdvanced = new ExplosionLargeAdvanced();
-            explosionLargeAdvanced.ExplosionStandard(worldObj, posX, posY, posZ, 50F, 5F, false, ModBlocks.block_slag, 1);
-            ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, 55);
-            ExplosionChaos.burn(worldObj, (int) posX, (int) posY, (int) posZ, 50);
-            int radius = 30;
-            List<Entity> hit = worldObj.getEntitiesWithinAABBExcludingEntity(
-                    null,
-                    AxisAlignedBB.getBoundingBox(
-                            posX - radius,
-                            posY - radius,
-                            posZ - radius,
-                            posX + radius,
-                            posY + radius,
-                            posZ + radius
-                    )
-            );
-            for(Entity e : hit) {
-                e.setFire(5);
-                if(e instanceof EntityLivingBase) {
-                    PotionEffect eff = new PotionEffect(
-                            HbmPotion.phosphorus.id,
-                            30 * 20,
-                            0,
-                            true
-                    );
-                    eff.getCurativeItems().clear();
-                    ((EntityLivingBase)e).addPotionEffect(eff);
-                }
+            public EntityCruiseMissileEmp(World world, float x, float y, float z, int a, int b) {
+                super(world, x, y, z, a, b);
             }
-            for(int i = 0; i < 10; i++) {
-                NBTTagCompound haze = new NBTTagCompound();
-                haze.setString("type", "haze");
-                PacketDispatcher.wrapper.sendToAllAround(
-                        new AuxParticlePacketNT(
-                                haze,
-                                posX + worldObj.rand.nextGaussian() * 15,
-                                posY,
-                                posZ + worldObj.rand.nextGaussian() * 15
-                        ),
-                        new NetworkRegistry.TargetPoint(
-                                worldObj.provider.dimensionId,
-                                posX,
-                                posY,
-                                posZ,
-                                150
+
+            @Override
+            public ItemStack getDebrisRareDrop() {
+                return null;
+            }
+
+            @Override
+            public ItemStack getMissileItemForInfo() {
+                return new ItemStack(ModItems.missile_test);
+            }
+
+            @Override
+            public void onImpact() {
+                EntityEMP emp = new EntityEMP(worldObj);
+                emp.posX = posX;
+                emp.posY = posY;
+                emp.posZ = posZ;
+
+                worldObj.spawnEntityInWorld(emp);
+            }
+        }
+
+        public static class EntityCruiseMissileMiniNuke extends EntityCruiseMissileSubsonic {
+            public EntityCruiseMissileMiniNuke(World world) {
+                super(world);
+            }
+
+            public EntityCruiseMissileMiniNuke(World world, float x, float y, float z, int a, int b) {
+                super(world, x, y, z, a, b);
+            }
+
+            @Override
+            public ItemStack getDebrisRareDrop() {
+                return null;
+            }
+
+            @Override
+            public ItemStack getMissileItemForInfo() {
+                return new ItemStack(ModItems.missile_test);
+            }
+
+            @Override
+            public void onImpact() {
+                ExplosionNukeSmall.explode(worldObj, posX, posY, posZ, ExplosionNukeSmall.PARAMS_MEDIUM);
+            }
+        }
+
+        public static class EntityCruiseMissileFragmentation extends EntityCruiseMissileSubsonic {
+            public EntityCruiseMissileFragmentation(World world) {
+                super(world);
+            }
+
+            public EntityCruiseMissileFragmentation(World world, float x, float y, float z, int a, int b) {
+                super(world, x, y, z, a, b);
+            }
+
+            @Override
+            public ItemStack getDebrisRareDrop() {
+                return null;
+            }
+
+            @Override
+            public ItemStack getMissileItemForInfo() {
+                return new ItemStack(ModItems.missile_test);
+            }
+
+            @Override
+            public void onImpact() {
+                this.explodeStandard(20F, 32, false, true);
+            }
+        }
+
+        public static class EntityCruiseMissileWP extends EntityCruiseMissileSubsonic {
+            public EntityCruiseMissileWP(World world) {
+                super(world);
+            }
+
+            public EntityCruiseMissileWP(World world, float x, float y, float z, int a, int b) {
+                super(world, x, y, z, a, b);
+            }
+
+            @Override
+            public ItemStack getDebrisRareDrop() {
+                return null;
+            }
+
+            @Override
+            public ItemStack getMissileItemForInfo() {
+                return new ItemStack(ModItems.missile_test);
+            }
+
+            @Override
+            public void onImpact() {
+                ExplosionLargeAdvanced explosionLargeAdvanced = new ExplosionLargeAdvanced();
+                explosionLargeAdvanced.ExplosionStandard(worldObj, posX, posY, posZ, 50F, 5F, false, ModBlocks.block_slag, 1);
+                ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, 55);
+                ExplosionChaos.burn(worldObj, (int) posX, (int) posY, (int) posZ, 50);
+                int radius = 30;
+                List<Entity> hit = worldObj.getEntitiesWithinAABBExcludingEntity(
+                        null,
+                        AxisAlignedBB.getBoundingBox(
+                                posX - radius,
+                                posY - radius,
+                                posZ - radius,
+                                posX + radius,
+                                posY + radius,
+                                posZ + radius
                         )
                 );
+                for (Entity e : hit) {
+                    e.setFire(5);
+                    if (e instanceof EntityLivingBase) {
+                        PotionEffect eff = new PotionEffect(
+                                HbmPotion.phosphorus.id,
+                                30 * 20,
+                                0,
+                                true
+                        );
+                        eff.getCurativeItems().clear();
+                        ((EntityLivingBase) e).addPotionEffect(eff);
+                    }
+                }
+                for (int i = 0; i < 10; i++) {
+                    NBTTagCompound haze = new NBTTagCompound();
+                    haze.setString("type", "haze");
+                    PacketDispatcher.wrapper.sendToAllAround(
+                            new AuxParticlePacketNT(
+                                    haze,
+                                    posX + worldObj.rand.nextGaussian() * 15,
+                                    posY,
+                                    posZ + worldObj.rand.nextGaussian() * 15
+                            ),
+                            new NetworkRegistry.TargetPoint(
+                                    worldObj.provider.dimensionId,
+                                    posX,
+                                    posY,
+                                    posZ,
+                                    150
+                            )
+                    );
+                }
+                ExplosionLargeAdvanced.standardMush(worldObj, posX, posY, posZ, 15);
             }
-            ExplosionLargeAdvanced.standardMush(worldObj, posX, posY, posZ, 15); }
+        }
+
     }
 
-}
 
 
 

@@ -2,6 +2,7 @@ package com.wartec.wartecmod.entity.missile;
 
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
+import com.hbm.entity.missile.EntityMissileTier0;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.explosion.ExplosionNukeSmall.MukeParams;
 import com.hbm.items.ModItems;
@@ -12,7 +13,7 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntityMissileMicroNeutron extends EntityBallisticMissileBase {
+public class EntityMissileMicroNeutron extends EntityMissileTier0 {
 
 	public EntityMissileMicroNeutron(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -21,9 +22,12 @@ public class EntityMissileMicroNeutron extends EntityBallisticMissileBase {
 	public EntityMissileMicroNeutron(World world, float x, float y, float z, int a, int b) {
 		super(world, x, y, z, a, b);
 	}
-	
+
+	@Override
+	public ItemStack getMissileItemForInfo() { return new ItemStack(wartecmodItems.itemMissileMicroGas); }
+
 	public static MukeParams NEUTRON_WARHEAD = new MukeParams() {{ miniNuke = true; blastRadius = 35; shrapnelCount = 0; radiationLevel = 1000; }};
-	
+
 
 	@Override
 	public void onImpact() {
@@ -40,8 +44,8 @@ public class EntityMissileMicroNeutron extends EntityBallisticMissileBase {
 		list.add(new ItemStack(ModItems.thruster_large, 1));
 		list.add(new ItemStack(wartecmodItems.itemGuidanceSystemTier5, 1));
 		list.add(new ItemStack(ModItems.circuit_targeting_tier4, 1));
-		
-		
+
+
 		return list;
 	}
 
@@ -50,8 +54,4 @@ public class EntityMissileMicroNeutron extends EntityBallisticMissileBase {
 		return new ItemStack(wartecmodItems.itemHWarhead);
 	}
 
-	@Override
-	public RadarTargetType getTargetType() {
-		return RadarTargetType.MISSILE_TIER0;
-	}
 }

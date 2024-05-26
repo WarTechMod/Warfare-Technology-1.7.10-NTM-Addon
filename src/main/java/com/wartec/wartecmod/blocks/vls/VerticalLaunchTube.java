@@ -1,6 +1,7 @@
 package com.wartec.wartecmod.blocks.vls;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.IBomb;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.wartec.wartecmod.tileentity.vls.TileEntityVerticalLaunchTube;
@@ -16,12 +17,14 @@ public class VerticalLaunchTube extends BlockDummyable implements IBomb {
 
     public VerticalLaunchTube(Material mat) {
         super(mat);
-        this.bounding.add(AxisAlignedBB.getBoundingBox(-1.5D, 0D, -1.5D, -0.5D, 1D, -0.5D));
+        /*this.bounding.add(AxisAlignedBB.getBoundingBox(-1.5D, 0D, -1.5D, -0.5D, 1D, -0.5D));
         this.bounding.add(AxisAlignedBB.getBoundingBox(0.5D, 0D, -1.5D, 1.5D, 1D, -0.5D));
         this.bounding.add(AxisAlignedBB.getBoundingBox(-1.5D, 0D, 0.5D, -0.5D, 1D, 1.5D));
         this.bounding.add(AxisAlignedBB.getBoundingBox(0.5D, 0D, 0.5D, 1.5D, 1D, 1.5D));
         this.bounding.add(AxisAlignedBB.getBoundingBox(-0.5D, 0.5D, -1.5D, 0.5D, 1D, 1.5D));
         this.bounding.add(AxisAlignedBB.getBoundingBox(-1.5D, 0.5D, -0.5D, 1.5D, 1D, 0.5D));
+
+         */
     }
 
     @Override
@@ -83,14 +86,7 @@ public class VerticalLaunchTube extends BlockDummyable implements IBomb {
 
     @Override
     public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
-        super.fillSpace(world, x, y, z, dir, o);
-
-        x += dir.offsetX * o;
-        z += dir.offsetZ * o;
-
-        this.makeExtra(world, x + 1, y, z + 1);
-        this.makeExtra(world, x + 1, y, z - 1);
-        this.makeExtra(world, x - 1, y, z + 1);
-        this.makeExtra(world, x - 1, y, z - 1);
+        //MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), this, dir);
+        //this.makeExtra(world, x, y + 10, z);
     }
 }

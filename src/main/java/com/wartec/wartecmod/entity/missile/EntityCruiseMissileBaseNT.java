@@ -1,18 +1,16 @@
 package com.wartec.wartecmod.entity.missile;
 
 import api.hbm.entity.IRadarDetectableNT;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.projectile.EntityThrowableInterp;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.*;
-import com.hbm.items.weapon.ItemMissile;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.TrackerUtil;
-import com.wartec.wartecmod.blocks.wartecmodBlocks;
 import com.wartec.wartecmod.entity.submunition.EntityBombletHE;
 import com.wartec.wartecmod.items.ItemCruiseMissile;
+import com.wartec.wartecmod.tileentity.vls.TileEntityVerticalLaunchTubeBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.EntityTrackerEntry;
@@ -30,14 +28,14 @@ import net.minecraftforge.common.ForgeChunkManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.hbm.lib.ModDamageSource.exhaust;
-
 public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp implements IChunkLoader, IRadarDetectableNT {
 
+    protected TileEntityVerticalLaunchTubeBase exhaust = null;
     public int startX;
     public int startZ;
+
     public int targetX;
-    public int targetY;
+
     public int targetZ;
     public double velocity;
     public double decelY;
@@ -45,15 +43,13 @@ public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp im
     public boolean isCluster = false;
     public boolean isStealth = false;
     double Distance;
-    double targetAcceleration;
-    double currentAcceleration;
-    double scaledAcceleration;
+
     double CruiseMissilePosition;
-    double Weg;
     double BoosterDisengagement;
     double SubmunitionDispensing;
     private ForgeChunkManager.Ticket loaderTicket;
-    public int health = 10;
+    public int health = 25;
+
 
     public EntityCruiseMissileBaseNT(World world) {
         super(world);
@@ -72,7 +68,7 @@ public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp im
         startZ = (int) z;
         targetX = a;
         targetZ = b;
-        this.motionY = 0.25;
+        this.motionY = 1;
 
         Distance = Math.sqrt(((targetX - startX)*(targetX - startX)) + ((targetZ - startZ)*(targetZ - startZ)));
 
@@ -80,16 +76,47 @@ public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp im
 
         SubmunitionDispensing = (Math.sqrt(((targetX - startX)*(targetX - startX)) +  ((targetZ - startZ)*(targetZ - startZ))))*0.95;
 
-        Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
-        accelXZ = decelY = 1 / vector.lengthVector();
-        decelY *= 0.25;
-        velocity = 5;
+        Vec3 vector = Vec3.createVectorHelper(this.targetX - this.startX, 0, this.targetZ - this.startZ);
+        //vector.xCoord *= (1+(17.5/this.Distance));
+        //vector.zCoord *= (1+(17.5/this.Distance));
+        accelXZ = decelY =   1 / vector.lengthVector();
+        decelY *= 1;
+        velocity = 0;
 
-        this.rotationYaw = (float) (Math.atan2(targetX - posX, targetZ - posZ) * 180.0D / Math.PI);
+        this.rotationYaw = (float) (Math.atan2(this.targetX - this.posX, this.targetZ - this.posZ) * 180.0D / Math.PI);
 
         this.setSize(1.5F, 1.5F);
 
         }
+
+    private void spawnExhaust(double x, double y, double z) {
+
+        NBTTagCompound data = new NBTTagCompound();
+        data.setString("type", "exhaust");
+        data.setString("mode", "soyuz");
+        if(exhaust == null) {
+            data.setInteger("count", 5);
+            data.setDouble("width", worldObj.rand.nextDouble() * 0.25 - 0.5);
+        } else {
+            data.setInteger("count", 2);
+            data.setDouble("width", worldObj.rand.nextDouble() * 0.25 - 0.8);
+
+            NBTTagCompound vep = new NBTTagCompound();
+            vep.setString("type", "exhaust");
+            vep.setString("mode", "soyuz");
+            vep.setInteger("count", 1);
+            vep.setDouble("width", worldObj.rand.nextDouble() * 0.25 - 0.8);
+            vep.setDouble("posX", exhaust.xCoord);
+            vep.setDouble("posY", exhaust.yCoord-5);
+            vep.setDouble("posZ", exhaust.zCoord);
+            MainRegistry.proxy.effectNT(vep);
+        }
+        data.setDouble("posX", x);
+        data.setDouble("posY", y);
+        data.setDouble("posZ", z);
+
+        MainRegistry.proxy.effectNT(data);
+    }
 
     /** Auto-generates radar blip level and all that from the item */
     public abstract ItemStack getMissileItemForInfo();
@@ -140,43 +167,39 @@ public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp im
         this.lastTickPosZ = this.posZ;
         super.onUpdate();
 
-        if (velocity < 4) velocity += MathHelper.clamp_double(this.ticksExisted / 60D * 0.05D, 0, 0.05);
+        if (velocity < 4) velocity += MathHelper.clamp_double(this.ticksExisted / 60D * 0.05, 0, 0.05);
 
-        CruiseMissilePosition = Math.sqrt(((this.posX - startX) * (this.posX - startX)) + ((this.posZ - startZ) * (this.posZ - startZ)));
+        CruiseMissilePosition = Math.sqrt(((this.posX - this.startX) * (this.posX - this.startX)) + ((this.posZ - this.startZ) * (this.posZ - this.startZ)));
 
-
-        if (this.CruiseMissilePosition < this.BoosterDisengagement && this.dataWatcher.getWatchableObjectInt(9) == 1 && !this.worldObj.isRemote) {//this.ticksExisted > 5
-            this.spawnContrail();
-            if (velocity > 4) velocity -= MathHelper.clamp_double(this.ticksExisted / 60D * 0.05D, 0, 0.05);
-        }
 
         if (this.CruiseMissilePosition > this.BoosterDisengagement && this.dataWatcher.getWatchableObjectInt(9) == 1 && !this.worldObj.isRemote) {//this.ticksExisted > 205
             this.MissileToCruiseMissile();
         }
 
-        if(this.Distance - 200 < this.CruiseMissilePosition && !this.worldObj.isRemote) {
-            if (velocity < 20) velocity += MathHelper.clamp_double(this.ticksExisted / 60D * 0.05D, 0, 0.05);
-        }
-
-        if(this.Distance - 50 < this.CruiseMissilePosition && !this.worldObj.isRemote) {
-            worldObj.playSoundEffect(this.targetX, this.targetY, this.targetZ, "wartecmod:weapon.CruiseMissileWhistle", 15.0F, 0.9F + rand.nextFloat() * 0.2F);
+        if(this.Distance - 50 == this.CruiseMissilePosition && !this.worldObj.isRemote && !isCluster) {
+        worldObj.playSoundEffect(this.posX, this.posY-2, this.posZ, "wartecmod:weapon.CruiseMissileWhistle", 10.0f, 1.0f);
         }
 
         if (this.isCluster && this.Distance - 30 < this.CruiseMissilePosition && !this.worldObj.isRemote) {
-        //if (this.isCluster && this.posX == this.targetX && this.posZ == this.targetZ && !this.worldObj.isRemote) {
+            //if (this.isCluster && this.posX == this.targetX && this.posZ == this.targetZ && !this.worldObj.isRemote) {
             BombletSplit();
             this.dataWatcher.updateObject(9, 3);
         }
 
+
         if (!worldObj.isRemote) {
 
             if(hasPropulsion()) {
-            this.motionY -= decelY * velocity;
+                this.motionY -= decelY * velocity;
 
-            Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
+            Vec3 vector = Vec3.createVectorHelper(this.targetX - this.startX, 0, this.targetZ - this.startZ);
             vector = vector.normalize();
             vector.xCoord *= accelXZ;
             vector.zCoord *= accelXZ;
+
+            if (this.CruiseMissilePosition < this.BoosterDisengagement && this.dataWatcher.getWatchableObjectInt(9) == 1 && !this.worldObj.isRemote) {//this.ticksExisted > 5
+                this.spawnExhaust(this.posX - vector.xCoord * velocity, (this.posY) - vector.yCoord * velocity, this.posZ - vector.zCoord * velocity);
+            }
 
             if (motionY > 0) {
                 motionX += vector.xCoord * velocity;
@@ -190,9 +213,8 @@ public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp im
         } else {
             motionX *= 0.99;
             motionZ *= 0.99;
-
-            if (motionY > -1.5)
-                motionY -= 0.05;
+                if (motionY > -0.1875)
+                      motionY -= 0.25;
         }
 
         this.rotationYaw = (float) (Math.atan2(targetX - posX, targetZ - posZ) * 180.0D / Math.PI);
@@ -209,34 +231,6 @@ public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp im
         while(this.rotationYaw - this.prevRotationYaw < -180.0F) this.prevRotationYaw -= 360.0F;
         while(this.rotationYaw - this.prevRotationYaw >= 180.0F) this.prevRotationYaw += 360.0F;
     }
-    protected void spawnContrail() {
-        this.spawnContraolWithOffset(0, 0, 0);
-    }
-
-    protected void spawnContraolWithOffset(double offsetX, double offsetY, double offsetZ) {
-        Vec3 vec = Vec3.createVectorHelper(this.lastTickPosX - this.posX, this.lastTickPosY - this.posY, this.lastTickPosZ - this.posZ);
-        double len = vec.lengthVector();
-        vec = vec.normalize();
-        Vec3 thrust = Vec3.createVectorHelper(0, 1, 0);
-        thrust.rotateAroundZ(this.rotationPitch * (float) Math.PI / 180F);
-        thrust.rotateAroundY((this.rotationYaw + 90) * (float) Math.PI / 180F);
-
-        for(int i = 0; i < Math.max(Math.min(len, 10), 1); i++) {
-            double j = i - len;
-            NBTTagCompound data = new NBTTagCompound();
-            data.setDouble("posX", posX - vec.xCoord * j + offsetX);
-            data.setDouble("posY", posY - vec.yCoord * j + offsetY);
-            data.setDouble("posZ", posZ - vec.zCoord * j + offsetZ);
-            data.setString("mode", "soyuz");
-            data.setString("type", "missileContrail");
-            data.setFloat("scale", this.getContrailScale());
-            data.setDouble("moX", -thrust.xCoord);
-            data.setDouble("moY", -thrust.yCoord);
-            data.setDouble("moZ", -thrust.zCoord);
-            data.setInteger("maxAge", 60 + rand.nextInt(20));
-            MainRegistry.proxy.effectNT(data);
-        }
-    }
     public void BombletSplit() {
         if (this.Distance-30 < this.CruiseMissilePosition) {
         //if (this.posX == this.targetX && this.posZ == this.targetZ) {
@@ -244,7 +238,6 @@ public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp im
             if (worldObj.isRemote)
                 return;
             ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ, 7);
-            this.health = 1000;
 
             for (int i = 0; i < 100; i++) {
 
@@ -266,10 +259,6 @@ public abstract class EntityCruiseMissileBaseNT extends EntityThrowableInterp im
         return true;
     }
 
-
-    protected float getContrailScale() {
-        return 1F;
-    }
 
     @Override
     public void readEntityFromNBT(NBTTagCompound nbt) {

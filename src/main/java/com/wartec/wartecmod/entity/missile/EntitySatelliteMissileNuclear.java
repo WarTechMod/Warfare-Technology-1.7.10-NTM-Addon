@@ -37,6 +37,7 @@ public class EntitySatelliteMissileNuclear extends Entity{
 		this.lastTickPosX = this.prevPosX = posX;
 		this.lastTickPosY = this.prevPosY = posY;
 		this.lastTickPosZ = this.prevPosZ = posZ;
+
 		this.setPosition(posX + this.motionX, posY + this.motionY, posZ + this.motionZ);
 
 		//worldObj.playSoundEffect(posX, posY, posZ, "hbm:weapon.missileTakeOff", 10000, 1.0F);
@@ -51,6 +52,7 @@ public class EntitySatelliteMissileNuclear extends Entity{
 
 				this.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, 200, posX, posY, posZ));
 				EntityNukeTorex.statFac(worldObj, posX, posY, posZ, 200);
+
 				}
 
 			this.setDead();

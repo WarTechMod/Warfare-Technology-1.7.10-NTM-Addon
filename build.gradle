@@ -109,7 +109,7 @@ dependencies {
 	//compileOnly 'inventory-tweaks:InventoryTweaks:1.62+beta.84:api'
 	implementation "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
 
-	implementation 'com.github.HbmMods:Hbm-s-Nuclear-Tech-GIT:9206755'
+	implementation 'com.github.HbmMods:Hbm-s-Nuclear-Tech-GIT:6d0095d'
 }
 
 processResources {

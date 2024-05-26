@@ -1,19 +1,15 @@
 package com.wartec.wartecmod;
 
-import com.hbm.tileentity.bomb.TileEntityLaunchPadBase;
-import com.hbm.tileentity.turret.TileEntityTurretBaseNT;
 import com.wartec.wartecmod.Proxies.wartecmodProxy;
 import com.wartec.wartecmod.blocks.wartecmodBlocks;
 import com.wartec.wartecmod.entity.wartecmodEntities;
 import com.wartec.wartecmod.handler.WartecmodGUIHandler;
 import com.wartec.wartecmod.hazard.wartecHazardRegistry;
+import com.wartec.wartecmod.inventory.*;
 import com.wartec.wartecmod.items.wartecmodItems;
 import com.wartec.wartecmod.packet.PacketRegistry;
 import com.wartec.wartecmod.savedata.satellites.SatelliteRegistry;
 import com.wartec.wartecmod.tileentity.TileEntityRegistry;
-import com.wartec.wartecmod.inventory.wartecmodAssemblerRecipes;
-import com.wartec.wartecmod.inventory.wartecmodShredderRecipes;
-import com.wartec.wartecmod.inventory.wartecmodVanillaRecipes;
 import com.wartec.wartecmod.tileentity.vls.TileEntityVerticalLaunchTubeBase;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -23,7 +19,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
@@ -118,23 +113,18 @@ public class wartecmod {
 	public void load(FMLInitializationEvent event) {
 		
 	}
+
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		
-		wartecmodAssemblerRecipes.AssemblerRecipes();
-		wartecmodShredderRecipes.Shredderrecipes();
-		wartecmodVanillaRecipes.VanillaRecipes();
+
+		wartecmodRecipes.Recipes();
 		proxy.registerRenderers();
 		SatelliteRegistry.registerAll();
-
-		try{
-			Class<?> clazz = Class.forName("EntityChecker");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-
+		hbmRegistry.registerTileEntityLaunchPad();
+		hbmRegistry.renderTileEntityLaunchPad();
+		hbmRegistry.renderItemMissile();
+		hbmRegistry.registerTurretTargets();
 	}
 }
 

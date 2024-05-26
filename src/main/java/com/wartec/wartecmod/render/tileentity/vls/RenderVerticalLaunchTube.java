@@ -2,10 +2,15 @@ package com.wartec.wartecmod.render.tileentity.vls;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.RecipesCommon;
-import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.tileentity.bomb.TileEntityLaunchPad;
+import com.wartec.wartecmod.ResourceManager;
+import com.wartec.wartecmod.blocks.vls.VerticalLaunchTube;
+import com.wartec.wartecmod.blocks.vls.VlsVerticalLauncher;
 import com.wartec.wartecmod.tileentity.vls.TileEntityVerticalLaunchTube;
+import com.wartec.wartecmod.tileentity.vls.TileEntityVerticalLaunchTubeBase;
+import com.wartec.wartecmod.tileentity.vls.TileEntityVlsLaunchTube;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
@@ -14,38 +19,39 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.function.Consumer;
 
+import static org.lwjgl.opengl.GL11.*;
+
 public class RenderVerticalLaunchTube extends TileEntitySpecialRenderer {
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
-        GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y, z + 0.5D);
-        GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glEnable(GL11.GL_CULL_FACE);
+    public void renderTileEntityAt(TileEntity tem, double x, double y, double z, float f) {
+        if(!(tem.getBlockType() instanceof VerticalLaunchTube))
+            return;
+        VerticalLaunchTube block = (VerticalLaunchTube) tem.getBlockType();
 
-        switch(tileEntity.getBlockMetadata() - BlockDummyable.offset) {
-            case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
-            case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
-            case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
-            case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
-        }
+        final int[] core = block.findCore(Minecraft.getMinecraft().theWorld.provider.worldObj, tem.xCoord, tem.yCoord, tem.zCoord);
+        if(core == null)
+            return;
 
-        bindTexture(ResourceManager.missile_pad_tex);
-        ResourceManager.missile_pad.renderAll();
+        if(!(tem instanceof TileEntityVerticalLaunchTube))
+            return;
 
-        if(tileEntity instanceof TileEntityVerticalLaunchTube) {
-            ItemStack toRender = ((TileEntityVerticalLaunchTube) tileEntity).toRender;
+        TileEntityVerticalLaunchTube te = (TileEntityVerticalLaunchTube) Minecraft.getMinecraft().theWorld.getTileEntity(core[0], core[1], core[2]);
 
-            if(toRender != null) {
-                GL11.glTranslated(0, 1, 0);
-                Consumer<TextureManager> renderer = ItemRenderMissileGeneric.renderers.get(new RecipesCommon.ComparableStack(toRender).makeSingular());
-                if(renderer != null) renderer.accept(this.field_147501_a.field_147553_e);
-            }
-        }
+        glPushMatrix();
+        glTranslated((x + 0.5), y, (z + 0.5));
+        glEnable(GL_LIGHTING);
+        glDisable(GL_CULL_FACE);
+        this.bindTexture(com.wartec.wartecmod.ResourceManager.launcher_tex);
+        com.wartec.wartecmod.ResourceManager.launchTube.renderPart("base");
 
-        GL11.glEnable(GL11.GL_CULL_FACE);
-
-        GL11.glPopMatrix();
+        glPushMatrix();
+        glTranslated(-0.5, 11, 0);
+        //glRotated(te.openingAnimation, 0, 0, 1);
+        glTranslated(0.5, 0, 0);
+        this.bindTexture(com.wartec.wartecmod.ResourceManager.launcher_cover_tex);
+        ResourceManager.launchTube.renderPart("cover");
+        glPopMatrix();
     }
 
 }

@@ -26,7 +26,7 @@ public class EntityTomahawkMissile extends EntitySubsonicCruiseMissileBase {
 	@Override
 	public void onImpact() {
 		ExplosionLargeAdvanced explosionLargeAdvanced = new ExplosionLargeAdvanced();
-		explosionLargeAdvanced.ExplosionAdvanced(worldObj, posX, posY, posZ, 25F, 2F, true, ModBlocks.block_slag, 1);
+		explosionLargeAdvanced.ExplosionStandard(worldObj, posX, posY, posZ, 25F, 2F, true, ModBlocks.block_slag, 1);
 	}
 	
 	public List<ItemStack> getDebris() {

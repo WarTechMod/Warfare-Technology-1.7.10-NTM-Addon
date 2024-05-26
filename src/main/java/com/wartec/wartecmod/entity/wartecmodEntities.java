@@ -1,6 +1,7 @@
 package com.wartec.wartecmod.entity;
 
 import com.wartec.wartecmod.entity.missile.*;
+import com.wartec.wartecmod.entity.submunition.EntityBombletPhosgene;
 import com.wartec.wartecmod.entity.submunition.EntityBombletHE;
 import com.wartec.wartecmod.wartecmod;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -17,17 +18,22 @@ public class wartecmodEntities {
         EntityRegistry.registerModEntity(EntityKalibrMissile.class, "entity_Kalibr_Missile", 15, mod, 1000, 1, true);
         EntityRegistry.registerModEntity(EntitySupersonicCruiseMissileH.class, "entity_Supersonic_Cruise_Missile_Nuclear", 16, mod, 1000, 1, true);
         EntityRegistry.registerModEntity(EntityHypersonicCruiseMissileNuclear.class, "entity_Hypersonic_Cruise_Missile_H", 17, mod, 1000, 1, true);
+
         EntityRegistry.registerModEntity(EntityMissileMicroGas.class, "entity_Missile_Micro_Gas", 18, mod, 1000, 1, true);
         EntityRegistry.registerModEntity(EntityMissileMicroNeutron.class, "entity_Missile_Micro_Neutron", 20, mod, 1000, 1, true);
+        EntityRegistry.registerModEntity(EntityMissileMicroPhosgene.class, "entity_Missile_Micro_Sarin", 42, mod, 1000, 1, true);
+
         EntityRegistry.registerModEntity(EntityMissileAntiBallisticNuclear.class, "entity_Missile_Anti_Ballistic_Nuclear", 19, mod, 1000, 1, true);
         EntityRegistry.registerModEntity(EntityMissileAntiAirTier1.class, "entity_Missile_Anti_Air_Tier1", 21, mod, 1000, 1, true);
         EntityRegistry.registerModEntity(EntityCJ10Missile.class, "entity_CJ10_Missile", 22, mod, 1000, 1, true);
         EntityRegistry.registerModEntity(EntitySatelliteMissileNuclear.class, "entity_Satellite_Missile_Nuclear", 23, mod, 1000, 1, true);
         EntityRegistry.registerModEntity(EntityMissileASAT.class, "entity_Missile_asat", 25, mod, 1000, 1, true);
         EntityRegistry.registerModEntity(EntityBombletHE.class, "entity_Bomblet_HE", 30, mod, 1000, 1, true);
+        EntityRegistry.registerModEntity(EntityBombletPhosgene.class, "entity_Bomblet_Chemical", 43, mod, 1000, 1, true);
 
         EntityRegistry.registerModEntity(EntityCruiseMissileSubsonic.EntityCruiseMissileCluster.class, "entity_Cruise_Missile_Cluster", 31, mod, 1000, 1, true);
-        EntityRegistry.registerModEntity(EntityCruiseMissileSubsonic.EntityCruiseMissileDecoy.class, "entity_Cruise_Missile_Decoy", 32, mod, 1000, 1, true);
+
+        EntityRegistry.registerModEntity(EntityCMTest.EntityCruiseMissileDecoy.class, "entity_Cruise_Missile_Decoy", 32, mod, 1000, 1, true);
         EntityRegistry.registerModEntity(EntityCruiseMissileSubsonic.EntityCruiseMissileNuclear.class, "entity_Cruise_Missile_Nuclear", 33, mod, 1000, 1, true);
         EntityRegistry.registerModEntity(EntityCruiseMissileSubsonic.EntityCruiseMissileH.class, "entity_Cruise_Missile_H", 34, mod, 1000, 1, true);
         EntityRegistry.registerModEntity(EntityCruiseMissileSubsonic.EntityCruiseMissileHE.class, "entity_Cruise_Missile_HE", 35, mod, 1000, 1, true);
@@ -38,6 +44,7 @@ public class wartecmodEntities {
         EntityRegistry.registerModEntity(EntityCruiseMissileSubsonic.EntityCruiseMissileFragmentation.class, "entity_Cruise_Missile_Fragmentation", 40, mod, 1000, 1, true);
         EntityRegistry.registerModEntity(EntityCruiseMissileSubsonic.EntityCruiseMissileWP.class, "entity_Cruise_Missile_WP", 41, mod, 1000, 1, true);
 
+        
     }
     
 }

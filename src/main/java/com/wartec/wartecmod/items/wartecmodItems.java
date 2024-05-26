@@ -11,10 +11,10 @@ package com.wartec.wartecmod.items;
 
 import com.hbm.items.machine.ItemSatChip;
 import com.hbm.items.weapon.ItemMissile;
-import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.wartec.wartecmod.entity.missile.*;
 import com.wartec.wartecmod.items.tool.*;
+import com.wartec.wartecmod.lib.RefStrings;
 import com.wartec.wartecmod.wartecmod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
@@ -72,6 +72,7 @@ public class wartecmodItems {
     public static Item itemSupersonicCruiseMissileH;
     public static Item itemMissileMicroGas;
     public static Item itemMissileMicroNeutron;
+    public static Item itemMissileMicroPhosgene;
     public static Item itemMissileAsat;
     public static Item itemMissileAntiBallisticNuclear;
     public static Item itemMissileAntiAirTier1;
@@ -82,6 +83,8 @@ public class wartecmodItems {
     public static Item itemTargetFinder;
     public static Item itemMissileStrikeCaller;
     public static Item itemCruiseMissileCluster;
+
+    public static Item itemCruiseMissileStrikeCaller;
 
     public static void Items() {
         wartecmodItems.initializeItem();
@@ -125,8 +128,6 @@ public class wartecmodItems {
         itemSupersonicCruiseMissileHE = new ItemCruiseMissileSupersonic(EntitySupersonicCruiseMissileHE.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setUnlocalizedName("ItemSupersonicCruiseMissileHE").setTextureName("wartecmod:ItemSupersonicCruiseMissileHe");
         itemHypersonicCruiseMissileNuclear = new ItemCruiseMissileHypersonic(EntityHypersonicCruiseMissileNuclear.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setUnlocalizedName("ItemHypersonicCruiseMissileNuclear").setTextureName("wartecmod:ItemHypersonicCruiseMissileNuclear");
         itemSupersonicCruiseMissileH = new ItemCruiseMissileSupersonic(EntitySupersonicCruiseMissileH.class).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setUnlocalizedName("ItemSupersonicCruiseMissileH").setTextureName("wartecmod:ItemSupersonicCruiseMissileH");
-        itemMissileMicroGas = new Item().setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setMaxStackSize(1).setUnlocalizedName("ItemMissileMicroGas").setTextureName("wartecmod:ItemMissileMicroGas");
-        itemMissileMicroNeutron = new Item().setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setMaxStackSize(1).setUnlocalizedName("ItemMissileMicroNeutron").setTextureName("wartecmod:ItemMissileMicroNeutron");
         itemMissileAntiBallisticNuclear = new Item().setMaxStackSize(1).setUnlocalizedName("ItemMissileAntiBallisticNuclear").setTextureName("wartecmod:ItemMissileAntiBallisticNuclear");
         itemMissileAntiAirTier1 = new ItemMissileAntiAirTier1().setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setMaxStackSize(1).setUnlocalizedName("ItemMissileAntiAirTier1").setTextureName("wartecmod:ItemMissileAntiAirTier1");
         itemMissileAntiAirTier2 = new ItemMissileAntiAirTier2().setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setMaxStackSize(1).setUnlocalizedName("ItemMissileAntiAirTier2").setTextureName("wartecmod:ItemMissileAntiAirTier2");
@@ -151,6 +152,15 @@ public class wartecmodItems {
         itemCruiseMissileFragmentation = new ItemCruiseMissile(ItemCruiseMissile.MissileFormFactor.MICRO, ItemCruiseMissile.MissileTier.Tier0).setUnlocalizedName("ItemCruiseMissileFragmentation").setMaxStackSize(1).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemCruiseMissileFragmentation");
         itemCruiseMissileMiniNuke = new ItemCruiseMissile(ItemCruiseMissile.MissileFormFactor.MICRO, ItemCruiseMissile.MissileTier.Tier0).setUnlocalizedName("ItemCruiseMissileMiniNuke").setMaxStackSize(1).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemCruiseMissileMiniNuke");
         itemCruiseMissileWP = new ItemCruiseMissile(ItemCruiseMissile.MissileFormFactor.MICRO, ItemCruiseMissile.MissileTier.Tier0).setUnlocalizedName("ItemCruiseMissileWP").setMaxStackSize(1).setCreativeTab(wartecmod.tabwartecmodcruisemissiles).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemCruiseMissileWP");
+
+        //New Missiles
+
+        itemMissileMicroGas = new ItemMissile(ItemMissile.MissileFormFactor.MICRO, ItemMissile.MissileTier.TIER0).setUnlocalizedName("ItemMissileMicroGas").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemMissileMicroGas");
+        itemMissileMicroNeutron = new ItemMissile(ItemMissile.MissileFormFactor.MICRO, ItemMissile.MissileTier.TIER0).setUnlocalizedName("ItemMissileMicroNeutron").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(com.wartec.wartecmod.lib.RefStrings.MODID + ":ItemMissileMicroNeutron");
+        itemMissileMicroPhosgene = new ItemMissile(ItemMissile.MissileFormFactor.MICRO, ItemMissile.MissileTier.TIER0).setUnlocalizedName("ItemMissileMicroSarin").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":ItemMissileMicroSarin");
+
+        //Missile Items
+        itemCruiseMissileStrikeCaller = new ItemCruiseMissileSupport().setUnlocalizedName("ItemCruiseMissileStrikeCaller").setMaxStackSize(1).setCreativeTab(wartecmod.tabwartecmodgear).setTextureName(RefStrings.MODID + ":ItemCruiseMissileStrikeCaller");
 
     }
 
@@ -189,6 +199,7 @@ public class wartecmodItems {
         GameRegistry.registerItem(itemMissileSLBM, (String)"ItemMissileSLBM");
         GameRegistry.registerItem(itemMissileMicroGas, (String)"ItemMissileMicroGas");
         GameRegistry.registerItem(itemMissileMicroNeutron, (String)"ItemMissileMicroNeutron");
+        GameRegistry.registerItem(itemMissileMicroPhosgene, (String)"ItemMissileMicroSarin");
         GameRegistry.registerItem(itemMissileAntiAirTier1, (String)"ItemMissileAntiAirTier1");
         GameRegistry.registerItem(itemMissileAntiAirTier2, (String)"ItemMissileAntiAirTier2");
         GameRegistry.registerItem(itemMissileAntiAirTier3, (String)"ItemMissileAntiAirTier3");
@@ -216,6 +227,8 @@ public class wartecmodItems {
         GameRegistry.registerItem(itemCruiseMissileFragmentation, itemCruiseMissileFragmentation.getUnlocalizedName());
         GameRegistry.registerItem(itemCruiseMissileMiniNuke, itemCruiseMissileMiniNuke.getUnlocalizedName());
         GameRegistry.registerItem(itemCruiseMissileWP, itemCruiseMissileWP.getUnlocalizedName());
+
+        GameRegistry.registerItem(itemCruiseMissileStrikeCaller, itemCruiseMissileStrikeCaller.getUnlocalizedName());
     }
 
 }

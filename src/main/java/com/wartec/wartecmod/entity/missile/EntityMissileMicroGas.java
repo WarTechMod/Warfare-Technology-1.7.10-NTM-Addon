@@ -26,7 +26,8 @@ public class EntityMissileMicroGas extends EntityMissileTier0 {
 		super(world, x, y, z, a, b);
 	}
 
-	@Override public ItemStack getMissileItemForInfo() { return new ItemStack(wartecmodItems.itemMissileMicroGas); }
+	@Override
+	public ItemStack getMissileItemForInfo() { return new ItemStack(wartecmodItems.itemMissileMicroGas); }
 
 	@Override
 	public void onImpact() {
@@ -34,8 +35,8 @@ public class EntityMissileMicroGas extends EntityMissileTier0 {
 		Vec3 vec = Vec3.createVectorHelper(motionX, motionY, motionZ).normalize();
 		EntityMist mist = new EntityMist(worldObj);
 		mist.setType(Fluids.CHLORINE);
-		mist.setPosition(posX, posY - 3, posZ);
-		mist.setArea(15, 7.5F);
+		mist.setPosition(posX, posY, posZ);
+		mist.setArea(35, 15F);
 		worldObj.spawnEntityInWorld(mist);
 		PollutionHandler.incrementPollution(worldObj, (int) posX, (int) posY, (int) posZ, PollutionHandler.PollutionType.HEAVYMETAL, 5F);
 	}

@@ -25,7 +25,7 @@ public class EntitySupersonicCruiseMissileHE extends EntitySupersonicCruiseMissi
 	@Override
 	public void onImpact() {
 		ExplosionLargeAdvanced explosionLargeAdvanced = new ExplosionLargeAdvanced();
-		explosionLargeAdvanced.ExplosionAdvanced(worldObj, posX, posY, posZ, 20F, 2F, true, ModBlocks.block_slag, 1);
+		explosionLargeAdvanced.ExplosionStandard(worldObj, posX, posY, posZ, 20F, 2F, true, ModBlocks.block_slag, 1);
 		
 	}
 

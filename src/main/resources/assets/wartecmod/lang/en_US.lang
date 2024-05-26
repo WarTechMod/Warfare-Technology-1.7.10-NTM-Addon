@@ -46,6 +46,7 @@ item.ItemMissileStrongAntiBallistic.name=Strong Anti Ballistic Missile
 item.ItemMissileSLBM.name=Submarine launched Ballistic Missile
 item.ItemMissileMicroGas.name=Gas Micro Missile
 item.ItemMissileMicroNeutron.name=Neutron Micro Missile
+item.ItemMissileMicroSarin.name=Sarin Cluster Micro Missile
 item.ItemLrhwMissile.name=Long Range Hypersonic Weapon
 item.ItemKalibrMissile.name=3M14 Kalibr 
 item.ItemTomahawkMissile.name=R/UGM-109H Tomahawk Block Va

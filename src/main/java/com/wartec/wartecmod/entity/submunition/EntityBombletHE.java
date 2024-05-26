@@ -1,8 +1,9 @@
 package com.wartec.wartecmod.entity.submunition;
 
-import com.hbm.entity.grenade.EntityGrenadeBase;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
+import com.wartec.wartecmod.entity.logic.ExplosionLargeAdvanced;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -82,14 +83,16 @@ public class EntityBombletHE extends EntityBombletBase {
     @Override
     public void explode() {
 
-        if (!this.worldObj.isRemote)
-        {
+        if (!this.worldObj.isRemote) {
             this.setDead();
 
-            if(this.ticksExisted > 52)
-                ExplosionLarge.explode(worldObj, posX, posY, posZ, 2F, true, false, false);
-            else
+            ExplosionLargeAdvanced explosionLargeAdvanced;
+            if (this.ticksExisted > 52) {
+                explosionLargeAdvanced = new ExplosionLargeAdvanced();
+                explosionLargeAdvanced.ExplosionStandard(worldObj, posX, posY, posZ, 2F, 2F, true, ModBlocks.block_slag, 1);
+            } else {
                 worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, new ItemStack(ModItems.grenade_smart)));
+            }
         }
     }
 }
